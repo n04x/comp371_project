@@ -1,0 +1,72 @@
+#version 330 core
+
+uniform vec3 l_p;
+uniform vec3 v_p;
+
+uniform sampler2D tex;
+uniform sampler2D shadow_map;
+
+out vec4 color;
+ 
+in vec4 col;
+in vec2 Texcoord;
+in vec3 nrm;
+in vec3 fpos;
+in vec4 fposls;
+
+float shadow_calculation(vec4 fposls) {
+
+	vec3 projection_coordinates = fposls.xyz / fposls.w;
+	projection_coordinates = projection_coordinates * 0.5 + 0.5;
+	float closest_depth = texture(shadow_map, projection_coordinates.xy).r;
+	float current_depth = projection_coordinates.z;
+	
+	vec3 normal = normalize(nrm);
+	vec3 ld = normalize(l_p - fpos);
+	float bias = max(0.05 * (1.0 - dot(normal, ld)), 0.005);
+
+	float shadow = 0.0;
+	vec2 texture_size = 1.0 / textureSize(shadow_map, 0);
+	for(int x = -1; x <= 1; ++x) {
+		for(int y = -1; y <= 1; ++y) {
+			float pcf_depth = texture(shadow_map, projection_coordinates.xy + vec2(x, y) * texture_size).r;
+			shadow += current_depth - bias > pcf_depth ? 1.0 : 0.0;
+		}
+	}
+
+	shadow /= 9.0;
+
+	if(projection_coordinates.z > 1.0)
+		shadow = 0.0;
+
+
+	return shadow;
+}
+
+void main()
+{
+	vec3 tex_color = texture(tex, Texcoord).rgb;
+	vec3 n = normalize(nrm);
+	vec3 light_color = vec3(1, 1, 1);
+	// ambient
+	vec3 ambient = 0.3 * tex_color;
+	
+	// diffuse
+	vec3 ld = normalize(l_p - fpos);
+	float angle = dot(n, ld);
+	float diff = max(0.0, angle);
+	vec3 diffuse = diff * light_color;
+	
+	// specular
+	vec3 vd = normalize(v_p - fpos);
+	vec3 rd = reflect(-ld, nrm);
+	//vec3 rdn = normalize(rd);
+	vec3 hd =normalize(ld + vd);
+	float spec = pow(max(dot(n, hd), 0.0), 64);
+	vec3 specular = spec * light_color;
+
+	// calculate shadow
+	float shadow = shadow_calculation(fposls);
+	vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * tex_color;
+    color = vec4(lighting, 1.0);
+}
