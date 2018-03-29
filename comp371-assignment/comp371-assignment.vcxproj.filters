@@ -42,12 +42,20 @@
     <ClCompile Include="camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="objects\horse_movement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objects\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\vs.ogl" />
     <None Include="shaders\fs.ogl" />
     <None Include="shaders\depthvs.ogl" />
     <None Include="shaders\depthfs.ogl" />
+    <None Include="shaders\vs_sky.ogl" />
+    <None Include="shaders\fs_sky.ogl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdinclude.h">
@@ -74,12 +82,21 @@
     <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="objects\horse_movement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\grass.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="textures\horse.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\another_grass.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

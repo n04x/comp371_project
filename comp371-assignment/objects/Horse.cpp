@@ -500,8 +500,8 @@ auto Horse::draw_horse(Shader shdr, modes choice) -> void
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::translate(model, glm::vec3(x_t, 0.0f, z_t));
 	model *= horse_scale;
 	model *= horse_rotation;
@@ -754,6 +754,5 @@ auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 			forward_running = true;
 	}
 }
-
 
 

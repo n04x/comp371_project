@@ -1,30 +1,26 @@
-#ifndef FLOOR_H
-#define FLOOR_H
+#ifndef SKYBOX_H
+#define SKYBOX_H
 
 #include "..\stdinclude.h"
 #include "..\shaders\Shaders.h"
-
-class Floor
+class Skybox
 {
 public:
+	std::vector<std::string> faces;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec2> texture_coordinates;
-	Floor();
+
+	Skybox();
 	auto draw(Shader shdr) -> void;
-	auto getSwap() -> bool;
-	auto setSwap(bool texture_enable) -> void;
 	auto loadTexture(char const *path)->GLuint;
-	GLuint floor_texture;
+	GLuint skybox_texture;
 
 protected:
 	GLuint VAO, VBO, VBOnorm, VBOtx;
-	GLuint EBO;
-	bool swap = true;
-	const char *texPath = "..\\comp371-assignment\\textures\\another_grass.jpg";
+	const char *texPath = "...";
 };
-#endif // FLOOR_H
 
-
+#endif // !SKYBOX_H
 

@@ -3,6 +3,7 @@
 #include "..\stdinclude.h"
 #include "..\shaders\Shaders.h"
 #include "..\stb_image.h"
+#include "horse_movement.h"
 enum modes { POINTS, LINES, FILL };
 
 // joints
@@ -16,6 +17,8 @@ auto const torso_to_front_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f); // 7. ke
 auto const front_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 8. key binding: 8.
 auto const torso_to_hind_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f);	// 9. key binding: 9.
 auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 0. key binding: 0.
+
+
 class Horse
 {
 public:
@@ -68,6 +71,7 @@ public:
 	GLuint horse_texture;
 
 protected:
+	friend void horse_movement::move_forward(Horse &horse);
 	GLuint VAO;
 	GLuint VBO, VBOtx, VBOnorm;
 	GLuint EBO;

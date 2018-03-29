@@ -76,10 +76,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glew;C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glfw;C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glew;C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glfw;C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glew;C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glfw;C:\Users\noax\Documents\GitHub\comp371_assignement\comp371-assignment\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glew;C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glfw;C:\Users\noax\Documents\GitHub\comp371_project\comp371-assignment\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;glfw3dll.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -126,12 +126,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera\Camera.cpp" />
+    <ClCompile Include="objects\horse_movement.cpp" />
     <ClCompile Include="objects\Floor.cpp" />
     <ClCompile Include="objects\Horse.cpp" />
     <ClCompile Include="objects\Coordinate.cpp" />
     <ClCompile Include="objects\Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaders\Shaders.cpp" />
+    <ClCompile Include="objects\Skybox.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="stdinclude.cpp" />
   </ItemGroup>
@@ -139,19 +141,24 @@
     <None Include="shaders\depthfs.ogl" />
     <None Include="shaders\depthvs.ogl" />
     <None Include="shaders\fs.ogl" />
+    <None Include="shaders\fs_sky.ogl" />
     <None Include="shaders\vs.ogl" />
+    <None Include="shaders\vs_sky.ogl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera\Camera.h" />
+    <ClInclude Include="objects\horse_movement.h" />
     <ClInclude Include="objects\Floor.h" />
     <ClInclude Include="objects\Horse.h" />
     <ClInclude Include="objects\Coordinate.h" />
     <ClInclude Include="objects\Grid.h" />
     <ClInclude Include="shaders\Shaders.h" />
+    <ClInclude Include="objects\Skybox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stdinclude.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="textures\another_grass.jpg" />
     <Image Include="textures\grass.png" />
     <Image Include="textures\horse.jpg" />
   </ItemGroup>

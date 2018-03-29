@@ -83,8 +83,8 @@ auto Floor::draw(Shader shdr) -> void
 	glBindTexture(GL_TEXTURE_2D, floor_texture);
 	glUniform1i(glGetUniformLocation(shdr.ID, "tex"), 0);
 	glm::mat4 floor_model = glm::mat4(1.0f);
-	floor_model = glm::rotate(floor_model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	floor_model = glm::rotate(floor_model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
+	//floor_model = glm::rotate(floor_model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//floor_model = glm::rotate(floor_model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(floor_model));
 	
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());

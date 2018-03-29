@@ -20,7 +20,8 @@
 #include "objects\Coordinate.h"
 #include "objects\Horse.h"
 #include "objects\Floor.h"
-
+#include "objects\horse_movement.h"
+#include "objects\Skybox.h"
 
 // SETTINGS
 GLFWwindow* window;
@@ -41,7 +42,7 @@ modes choice = FILL;
 
 // camera transformation.
 GLfloat posX = 0.0f;
-GLfloat posY = 0.0f;
+GLfloat posY = 5.0f;
 GLfloat posZ = 15.0f;
 GLfloat upX = 0.0f;
 GLfloat upY = 1.0f;
@@ -97,13 +98,15 @@ auto main() -> int{
 	// create my shaders.
 	Shader shdr("shaders\\vs.ogl", "shaders\\fs.ogl");
 	Shader depth_shdr("shaders\\depthvs.ogl", "shaders\\depthfs.ogl");
-	
+	Shader sky_shdr("shaders\\vs_sky.ogl", "shaders\\fs_sky.ogl");
+
 	// create my objects.
 	Grid ourGrid;
 	Floor ourFloor;
 	Coordinate coordaxes;
 	Horse ourHorse;
-
+	horse_movement ourHorse_movement;
+	Skybox ourSkybox;
 	// ===== PROJECTION MATRIX CONFIGURATION =====
 	glm::mat4 pm = glm::perspective(glm::radians(ourCamera.c_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 200.f);
 	
@@ -181,12 +184,22 @@ auto main() -> int{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// 2nd pass: render the scene normally
-		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		shdr.useID();
 		// projection and view matrices setting.
 		pm = glm::perspective(glm::radians(ourCamera.c_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 200.f);
 		glm::mat4 vm = ourCamera.getViewMatrix();
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// draw the skybox
+		glDisable(GL_DEPTH_TEST);
+		sky_shdr.useID();
+		glUniformMatrix4fv(glGetUniformLocation(sky_shdr.ID, "v_m"), 1, false, glm::value_ptr(glm::mat4(glm::mat3(vm))));
+		glUniformMatrix4fv(glGetUniformLocation(sky_shdr.ID, "p_m"), 1, false, glm::value_ptr(pm));
+		ourSkybox.draw(sky_shdr);
+		glEnable(GL_DEPTH_TEST);
+		
+		shdr.useID();
+		
 		glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "p_m"), 1, false, glm::value_ptr(pm));
 		glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "v_m"), 1, false, glm::value_ptr(vm));
 		glUniform3fv(glGetUniformLocation(shdr.ID, "v_p"), 1, glm::value_ptr(ourCamera.c_pos));
@@ -199,7 +212,6 @@ auto main() -> int{
 		render_world_object(ourFloor, coordaxes, ourHorse, shdr);
 		if(walk_cycle_enable)
 			ourHorse.horse_running(shdr, dTime);
-		
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}

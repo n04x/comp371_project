@@ -1,0 +1,11 @@
+#version 330 core
+
+layout (location = 0) in vec3 pos;
+uniform mat4 v_m;
+uniform mat4 p_m;
+out vec3 dir_uv;
+
+void main() {
+	gl_Position = p_m * v_m * vec4(pos, 1.0);
+	dir_uv = pos;
+}
