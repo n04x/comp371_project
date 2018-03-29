@@ -30,7 +30,7 @@ static int hull_angle_counter = 0;
 static int hlll_angle_counter = 0;
 static bool forward_running = true;
 int running_counter = 0;
-int run_cycle = 0;
+int run_cycle = 1;
 auto Horse::horse_callback_input(GLFWwindow * window) -> void
 {
 
@@ -550,7 +550,7 @@ auto Horse::draw_front_right_upper_leg(Shader shdr) -> void {
 	// create the horse legs.
 	front_right_upper_leg = torso;
 	front_right_upper_leg = glm::translate(front_right_upper_leg, glm::vec3(-0.75f, -1.70f, -0.5f));
-	front_right_upper_leg = glm::scale(front_right_upper_leg, glm::vec3(0.20f, 0.90f, 0.40f));
+	front_right_upper_leg = glm::scale(front_right_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
 	front_right_upper_leg *= front_upper_right_leg_rotation;
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_right_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
@@ -674,45 +674,47 @@ auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 	if (forward_running) {
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-		front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, dTime * glm::radians(-10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
 		// front lower right leg movement
 		front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-		front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, dTime * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
 
 		// front upper left leg movement
 		front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-		front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, dTime * glm::radians(-10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
 		// front lower left leg movement
 		front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-		front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, dTime * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
 
 		// hind upper right leg movement
 		hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-		hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, dTime * glm::radians(-10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
 		// hind lower right leg movement
 		hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-		hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, dTime * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
 
 		// hind upper left leg movement
 		hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-		hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, dTime * glm::radians(-10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
 		// hind lower left leg movement
 		hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-		hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, dTime * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
 		running_counter++;
 		//std::cout << running_counter << std::endl;
-		if (running_counter >= 50)
-			forward_running = false;
+		if (running_counter >= 200) {
+			run_cycle = run_cycle * -1;
+			running_counter = -150;
+		}
 	}
-	else {
+	/*else {
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
 		front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, dTime * glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -752,7 +754,7 @@ auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 		//std::cout << running_counter << std::endl;
 		if (running_counter <= -50)
 			forward_running = true;
-	}
+	}*/
 }
 
 
