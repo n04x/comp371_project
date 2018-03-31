@@ -39,7 +39,7 @@ const GLuint SHADOW_HEIGHT = 1024;
 // HORSE
 // rendering mode, the default is fill to draw Triangle.
 modes choice = FILL;
-
+auto const HORSE_SIZE_VECTOR = 20;
 // camera transformation.
 GLfloat posX = 0.0f;
 GLfloat posY = 15.0f;
@@ -61,7 +61,7 @@ auto dTime = 0.0f; // time between current frame and last frame
 auto lastFrame = 0.0f;
 
 // FUNCTION DEFINITION
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, Horse ourHorse, Shader shdr) -> void;
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, std::vector<Horse> ourHorses, Shader shdr) -> void;
 auto mouse_callback_input(GLFWwindow *window, GLdouble xpos, GLdouble ypos) -> void;
 auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) -> void;
 auto load_texture(char const * path)->GLuint;
@@ -105,6 +105,18 @@ auto main() -> int{
 	Floor ourFloor;
 	Coordinate coordaxes;
 	Horse ourHorse;
+	//anotherHorse.x_t = 10;
+	std::vector<Horse> ourHorses;
+	srand(time(NULL));
+	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
+		Horse horse;
+		horse.random_horse_position();
+		std::cout << "integer i: " << i << std::endl;
+		ourHorses.push_back(horse);
+	}
+	std::cout << ourHorses.at(0).x_t << std::endl;
+	std::cout << ourHorses.at(1).x_t << std::endl;
+	std::cout << ourHorses.at(2).x_t << std::endl;
 	horse_movement ourHorse_movement;
 	Skybox ourSkybox;
 	// ===== PROJECTION MATRIX CONFIGURATION =====
@@ -176,7 +188,7 @@ auto main() -> int{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, grass_texture);
 		if(shadow_enable)
-			render_world_object(ourFloor, coordaxes, ourHorse, depth_shdr);
+			render_world_object(ourFloor, coordaxes, ourHorses, depth_shdr);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		
 		// reset our viewport
@@ -209,9 +221,11 @@ auto main() -> int{
 		glBindTexture(GL_TEXTURE_2D, grass_texture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		render_world_object(ourFloor, coordaxes, ourHorse, shdr);
-		if(walk_cycle_enable)
-			ourHorse.horse_running(shdr, dTime);
+		render_world_object(ourFloor, coordaxes, ourHorses, shdr);
+		if (walk_cycle_enable) {
+			for(int i = 0; i < HORSE_SIZE_VECTOR; i++)
+				ourHorse.horse_running(shdr, dTime);
+		}
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
@@ -264,14 +278,16 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 		choice = FILL;
 }
 
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, Horse ourHorse, Shader shdr) -> void
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, std::vector<Horse> ourHorses, Shader shdr) -> void
 {
 	ourFloor.setSwap(texture_enable);
 	ourFloor.draw(shdr);
 	coordaxes.draw(shdr);
-	ourHorse.setSwap(texture_enable);
-	ourHorse.draw_horse(shdr, choice);
-	ourHorse.horse_callback_input(window);
+	for (auto count =0; count < HORSE_SIZE_VECTOR; count++) {
+		ourHorses.at(count).setSwap(texture_enable);
+		ourHorses.at(count).draw_horse(shdr, choice);
+		ourHorses.at(count).horse_callback_input(window);
+	}
 }
 
 auto mouse_callback_input(GLFWwindow * window, GLdouble xpos, GLdouble ypos) -> void

@@ -1,20 +1,20 @@
-#include "Horse.h"
+#include "Player.h"
 
-//GLfloat x_t = 0.0f;
-//GLfloat z_t = 0.0f;
-glm::mat4 Horse::horse_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::horse_scale = glm::mat4(1.0f);
-glm::mat4 Horse::torso_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::head_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::neck_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_lower_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_lower_left_leg_rotation = glm::mat4(1.0f);
+GLfloat Player::player_x = 0.0f;
+GLfloat Player::player_z = 0.0f;
+glm::mat4 Player::horse_rotation = glm::mat4(1.0f);
+glm::mat4 Player::horse_scale = glm::mat4(1.0f);
+glm::mat4 Player::torso_rotation = glm::mat4(1.0f);
+glm::mat4 Player::head_rotation = glm::mat4(1.0f);
+glm::mat4 Player::neck_rotation = glm::mat4(1.0f);
+glm::mat4 Player::front_upper_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::front_lower_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::hind_upper_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::hind_lower_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::front_upper_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::front_lower_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::hind_upper_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::hind_lower_left_leg_rotation = glm::mat4(1.0f);
 
 // the max angle condition.
 static int torso_angle_counter = 0;
@@ -31,7 +31,7 @@ static int hlll_angle_counter = 0;
 static bool forward_running = true;
 int running_counter = 0;
 int run_cycle = 1;
-auto Horse::horse_callback_input(GLFWwindow * window) -> void
+auto Player::horse_callback_input(GLFWwindow * window) -> void
 {
 
 	// horse movement.
@@ -306,68 +306,68 @@ auto Horse::horse_callback_input(GLFWwindow * window) -> void
 	}
 }
 
-Horse::Horse()
+Player::Player()
 {
 	vertices = {
 		// Square #1
-		glm::vec3(-1.0f, -1.0f, -1.0f),			
-		glm::vec3( 1.0f, -1.0f, -1.0f),			
-		glm::vec3( 1.0f,  1.0f, -1.0f),			
-		glm::vec3( 1.0f,  1.0f, -1.0f),			
-		glm::vec3(-1.0f,  1.0f, -1.0f),			
-		glm::vec3(-1.0f, -1.0f, -1.0f),			
+		glm::vec3(-1.0f, -1.0f, -1.0f),
+		glm::vec3(1.0f, -1.0f, -1.0f),
+		glm::vec3(1.0f,  1.0f, -1.0f),
+		glm::vec3(1.0f,  1.0f, -1.0f),
+		glm::vec3(-1.0f,  1.0f, -1.0f),
+		glm::vec3(-1.0f, -1.0f, -1.0f),
 		// Square #2
-		glm::vec3(-1.0f, -1.0f,  1.0f),			
-		glm::vec3( 1.0f, -1.0f,  1.0f),			
-		glm::vec3( 1.0f,  1.0f,  1.0f),			
-		glm::vec3( 1.0f,  1.0f,  1.0f),			
-		glm::vec3(-1.0f,  1.0f,  1.0f),			
-		glm::vec3(-1.0f, -1.0f,  1.0f),			
+		glm::vec3(-1.0f, -1.0f,  1.0f),
+		glm::vec3(1.0f, -1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
+		glm::vec3(-1.0f,  1.0f,  1.0f),
+		glm::vec3(-1.0f, -1.0f,  1.0f),
 		// Square #3
-		glm::vec3(-1.0f,  1.0f,  1.0f),			
-		glm::vec3(-1.0f,  1.0f, -1.0f),			
-		glm::vec3(-1.0f, -1.0f, -1.0f),			
-		glm::vec3(-1.0f, -1.0f, -1.0f),			
-		glm::vec3(-1.0f, -1.0f,  1.0f),			
-		glm::vec3(-1.0f,  1.0f,  1.0f),			
+		glm::vec3(-1.0f,  1.0f,  1.0f),
+		glm::vec3(-1.0f,  1.0f, -1.0f),
+		glm::vec3(-1.0f, -1.0f, -1.0f),
+		glm::vec3(-1.0f, -1.0f, -1.0f),
+		glm::vec3(-1.0f, -1.0f,  1.0f),
+		glm::vec3(-1.0f,  1.0f,  1.0f),
 		// Square #4
-		glm::vec3( 1.0f,  1.0f,  1.0f),
-		glm::vec3( 1.0f,  1.0f, -1.0f),
-		glm::vec3( 1.0f, -1.0f, -1.0f),
-		glm::vec3( 1.0f, -1.0f, -1.0f),
-		glm::vec3( 1.0f, -1.0f,  1.0f),
-		glm::vec3( 1.0f,  1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f, -1.0f),
+		glm::vec3(1.0f, -1.0f, -1.0f),
+		glm::vec3(1.0f, -1.0f, -1.0f),
+		glm::vec3(1.0f, -1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
 		// Square #5
 		glm::vec3(-1.0f, -1.0f, -1.0f),
-		glm::vec3( 1.0f, -1.0f, -1.0f),
-		glm::vec3( 1.0f, -1.0f,  1.0f),
-		glm::vec3( 1.0f, -1.0f,  1.0f),
+		glm::vec3(1.0f, -1.0f, -1.0f),
+		glm::vec3(1.0f, -1.0f,  1.0f),
+		glm::vec3(1.0f, -1.0f,  1.0f),
 		glm::vec3(-1.0f, -1.0f,  1.0f),
 		glm::vec3(-1.0f, -1.0f, -1.0f),
 		// Square #6
 		glm::vec3(-1.0f,  1.0f, -1.0f),
-		glm::vec3( 1.0f,  1.0f, -1.0f),
-		glm::vec3( 1.0f,  1.0f,  1.0f),
-		glm::vec3( 1.0f,  1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f, -1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
+		glm::vec3(1.0f,  1.0f,  1.0f),
 		glm::vec3(-1.0f,  1.0f,  1.0f),
 		glm::vec3(-1.0f,  1.0f, -1.0f)
 	};
-	
+
 	normal = {
 		// Square #1
-		glm::vec3( 0.0f, 0.0f,-1.0f),
-		glm::vec3( 0.0f, 0.0f,-1.0f),
-		glm::vec3( 0.0f, 0.0f,-1.0f),
-		glm::vec3( 0.0f, 0.0f,-1.0f),
-		glm::vec3( 0.0f, 0.0f,-1.0f),
-		glm::vec3( 0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
+		glm::vec3(0.0f, 0.0f,-1.0f),
 		// Square #2
-		glm::vec3( 0.0f, 0.0f, 1.0f),
-		glm::vec3( 0.0f, 0.0f, 1.0f),
-		glm::vec3( 0.0f, 0.0f, 1.0f),
-		glm::vec3( 0.0f, 0.0f, 1.0f),
-		glm::vec3( 0.0f, 0.0f, 1.0f),
-		glm::vec3( 0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f),
 		// Square #3
 		glm::vec3(-1.0f, 0.0f, 0.0f),
 		glm::vec3(-1.0f, 0.0f, 0.0f),
@@ -376,28 +376,28 @@ Horse::Horse()
 		glm::vec3(-1.0f, 0.0f, 0.0f),
 		glm::vec3(-1.0f, 0.0f, 0.0f),
 		// Square #4
-		glm::vec3( 1.0f, 0.0f, 0.0f),
-		glm::vec3( 1.0f, 0.0f, 0.0f),
-		glm::vec3( 1.0f, 0.0f, 0.0f),
-		glm::vec3( 1.0f, 0.0f, 0.0f),
-		glm::vec3( 1.0f, 0.0f, 0.0f),
-		glm::vec3( 1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
 		// Square #5
-		glm::vec3( 0.0f,-1.0f, 0.0f),
-		glm::vec3( 0.0f,-1.0f, 0.0f),
-		glm::vec3( 0.0f,-1.0f, 0.0f),
-		glm::vec3( 0.0f,-1.0f, 0.0f),
-		glm::vec3( 0.0f,-1.0f, 0.0f),
-		glm::vec3( 0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
+		glm::vec3(0.0f,-1.0f, 0.0f),
 		// Square #6
-		glm::vec3( 0.0f, 1.0f, 0.0f),
-		glm::vec3( 0.0f, 1.0f, 0.0f),
-		glm::vec3( 0.0f, 1.0f, 0.0f),
-		glm::vec3( 0.0f, 1.0f, 0.0f),
-		glm::vec3( 0.0f, 1.0f, 0.0f),
-		glm::vec3( 0.0f, 1.0f, 0.0f)
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f)
 	};
-	
+
 	texture_coordinates = {
 		// Square #1
 		glm::vec2(0.0, 0.0),
@@ -465,11 +465,11 @@ Horse::Horse()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-		
+
 }
 
 // this will draw the horse.
-auto Horse::draw(Shader shdr, glm::mat4 model) -> void
+auto Player::draw(Shader shdr, glm::mat4 model) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -495,13 +495,13 @@ auto Horse::draw(Shader shdr, glm::mat4 model) -> void
 	draw_head(shdr);
 }
 
-auto Horse::setSwap(bool texture_enable) -> void
+auto Player::setSwap(bool texture_enable) -> void
 {
 	this->swap = texture_enable;
 }
 
 // functions to draw the horse.
-auto Horse::draw_horse(Shader shdr, modes choice) -> void
+auto Player::draw_horse(Shader shdr, modes choice) -> void
 {
 	if (choice == LINES) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -521,7 +521,7 @@ auto Horse::draw_horse(Shader shdr, modes choice) -> void
 
 	draw(shdr, horse_model);
 }
-auto Horse::draw_torso(Shader shdr, glm::mat4 model) -> void
+auto Player::draw_torso(Shader shdr, glm::mat4 model) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -534,7 +534,7 @@ auto Horse::draw_torso(Shader shdr, glm::mat4 model) -> void
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 // left front legs
-auto Horse::draw_front_left_upper_leg(Shader shdr) -> void {
+auto Player::draw_front_left_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
@@ -545,7 +545,7 @@ auto Horse::draw_front_left_upper_leg(Shader shdr) -> void {
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_left_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
-auto Horse::draw_front_left_lower_leg(Shader shdr) -> void {
+auto Player::draw_front_left_lower_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
@@ -557,7 +557,7 @@ auto Horse::draw_front_left_lower_leg(Shader shdr) -> void {
 }
 
 // right front legs
-auto Horse::draw_front_right_upper_leg(Shader shdr) -> void {
+auto Player::draw_front_right_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
@@ -568,7 +568,7 @@ auto Horse::draw_front_right_upper_leg(Shader shdr) -> void {
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_right_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
-auto Horse::draw_front_right_lower_leg(Shader shdr) -> void {
+auto Player::draw_front_right_lower_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
@@ -580,7 +580,7 @@ auto Horse::draw_front_right_lower_leg(Shader shdr) -> void {
 }
 
 // left rear legs
-auto Horse::draw_hind_left_upper_leg(Shader shdr) -> void {
+auto Player::draw_hind_left_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
@@ -591,7 +591,7 @@ auto Horse::draw_hind_left_upper_leg(Shader shdr) -> void {
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_left_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
-auto Horse::draw_hind_left_lower_leg(Shader shdr) -> void
+auto Player::draw_hind_left_lower_leg(Shader shdr) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -604,7 +604,7 @@ auto Horse::draw_hind_left_lower_leg(Shader shdr) -> void
 }
 
 // right rear legs
-auto Horse::draw_hind_right_upper_leg(Shader shdr) -> void
+auto Player::draw_hind_right_upper_leg(Shader shdr) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -616,7 +616,7 @@ auto Horse::draw_hind_right_upper_leg(Shader shdr) -> void
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_right_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
-auto Horse::draw_hind_right_lower_leg(Shader shdr) -> void
+auto Player::draw_hind_right_lower_leg(Shader shdr) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -628,7 +628,7 @@ auto Horse::draw_hind_right_lower_leg(Shader shdr) -> void
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
-auto Horse::draw_neck(Shader shdr) -> void
+auto Player::draw_neck(Shader shdr) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -641,7 +641,7 @@ auto Horse::draw_neck(Shader shdr) -> void
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(neck));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
-auto Horse::draw_head(Shader shdr) -> void
+auto Player::draw_head(Shader shdr) -> void
 {
 	glBindVertexArray(VAO);
 
@@ -656,7 +656,7 @@ auto Horse::draw_head(Shader shdr) -> void
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
-auto Horse::loadTexture(char const * path) -> GLuint
+auto Player::loadTexture(char const * path) -> GLuint
 {
 	GLuint textureID;
 	// texture
@@ -681,10 +681,10 @@ auto Horse::loadTexture(char const * path) -> GLuint
 	return textureID;
 }
 
-auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
+auto Player::horse_running(Shader shdr, GLfloat dTime) -> void
 {
 	dTime *= 5.0;
-	x_t -= dTime/5;
+	x_t -= dTime / 5;
 	if (forward_running) {
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
@@ -730,7 +730,7 @@ auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 	}
 }
 
-auto Horse::random_horse_position() -> void
+auto Player::random_horse_position() -> void
 {
 	x_t = (rand() % 100) - 50.0f;
 	z_t = (rand() % 100) - 50.0f;

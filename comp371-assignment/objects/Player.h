@@ -3,7 +3,6 @@
 #include "..\stdinclude.h"
 #include "..\shaders\Shaders.h"
 #include "..\stb_image.h"
-#include "horse_movement.h"
 enum modes { POINTS, LINES, FILL };
 
 // joints
@@ -19,37 +18,27 @@ auto const torso_to_hind_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f);	// 9. key
 auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 0. key binding: 0.
 
 
-class Horse
+class Player
 {
 public:
 	//GLfloat y_pos = 0.0f;
 	//GLfloat z_pos = 0.0f;
-	
+
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec2> texture_coordinates;
 	auto horse_callback_input(GLFWwindow* window) -> void;
 	// horse transformation
-	static glm::mat4 horse_rotation;
-	static glm::mat4 horse_scale;
-	static glm::mat4 torso_rotation;
-	static glm::mat4 head_rotation;
-	static glm::mat4 neck_rotation;
-	static glm::mat4 front_upper_right_leg_rotation;				
-	static glm::mat4 front_lower_right_leg_rotation;
-	static glm::mat4 hind_upper_right_leg_rotation;
-	static glm::mat4 hind_lower_right_leg_rotation;
-	static glm::mat4 front_upper_left_leg_rotation;
-	static glm::mat4 front_lower_left_leg_rotation;
-	static glm::mat4 hind_upper_left_leg_rotation;
-	static glm::mat4 hind_lower_left_leg_rotation;
-	
+	static glm::mat4 player_rotation;
+	static glm::mat4 player_scale;
+	static glm::mat4 player_head_rotation;
+
 
 	modes choice = FILL;
-	GLfloat x_t = 0.0f, z_t = 0.0f;
+	GLfloat static player_x, player_z;
 
-	Horse();
+	Player();
 	// functions to draw the horse.
 	auto draw(Shader shdr, glm::mat4 model) -> void;
 	auto setSwap(bool texture_enable) -> void;

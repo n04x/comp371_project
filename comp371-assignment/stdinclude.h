@@ -11,7 +11,8 @@
 #include <glm.hpp>
 #include <glew.h>
 #include <glfw3.h>
-
+#include <stdlib.h>
+#include <time.h>
 // additional header that my program needs
 #include <glm.hpp>
 #include "gtc/matrix_transform.hpp"
