@@ -22,7 +22,7 @@ protected:
 	GLuint VAO, VBO, VBOnorm, VBOtx;
 	GLuint EBO;
 	bool swap = true;
-	const char *texPath = "..\\comp371-assignment\\textures\\another_grass.jpg";
+	const char *texPath = "..\\comp371-assignment\\textures\\grass.jpg";
 };
 #endif // FLOOR_H
 

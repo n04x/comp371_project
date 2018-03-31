@@ -49,7 +49,7 @@ void main()
 	vec3 n = normalize(nrm);
 	vec3 light_color = vec3(1, 1, 1);
 	// ambient
-	vec3 ambient = 0.3 * tex_color;
+	vec3 ambient = 0.5 * tex_color;
 	
 	// diffuse
 	vec3 ld = normalize(l_p - fpos);

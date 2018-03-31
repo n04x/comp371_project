@@ -39,28 +39,40 @@ auto Horse::horse_callback_input(GLFWwindow * window) -> void
 	{
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			x_t -= 1.0f;
-		else
+		else {
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			x_t += 1.0f;
-		else
+		else {
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
-
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			z_t -= 1.0f;
-		else
+		else {
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+		}
 
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			z_t += 1.0f;
-		else
+		else {
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+		}
 	}
 
 	//  random horse location.
@@ -468,7 +480,6 @@ auto Horse::draw(Shader shdr, glm::mat4 model) -> void
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, horse_texture);
 	glUniform1i(glGetUniformLocation(shdr.ID, "tex"), 0);
-
 	draw_torso(shdr, model);
 	draw_front_left_upper_leg(shdr);
 	draw_front_left_lower_leg(shdr);
@@ -498,14 +509,14 @@ auto Horse::draw_horse(Shader shdr, modes choice) -> void
 	}
 	else if (choice == FILL)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
 	glm::mat4 model = glm::mat4(1.0f);
 	//model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//model = glm::rotate(model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::translate(model, glm::vec3(x_t, 0.0f, z_t));
 	model *= horse_scale;
 	model *= horse_rotation;
+	model = glm::translate(model, glm::vec3(x_t, 0.0f, z_t));
 	horse_model = model;
+
 	draw(shdr, horse_model);
 }
 auto Horse::draw_torso(Shader shdr, glm::mat4 model) -> void
@@ -671,6 +682,7 @@ auto Horse::loadTexture(char const * path) -> GLuint
 auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 {
 	dTime *= 5.0;
+	x_t -= dTime/5;
 	if (forward_running) {
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);

@@ -42,10 +42,10 @@ modes choice = FILL;
 
 // camera transformation.
 GLfloat posX = 0.0f;
-GLfloat posY = 5.0f;
-GLfloat posZ = 15.0f;
+GLfloat posY = 15.0f;
+GLfloat posZ = 20.0f;
 GLfloat upX = 0.0f;
-GLfloat upY = 1.0f;
+GLfloat upY = 5.0f;
 GLfloat upZ = 0.0f;
 GLfloat yaw = -90.0f;
 GLfloat pitch = 0.0f;
@@ -113,7 +113,7 @@ auto main() -> int{
 	
 	
 	// load textures
-	GLuint grass_texture = load_texture("..\\comp371-assignment\\textures\\grass.png");
+	GLuint grass_texture = load_texture("..\\comp371-assignment\\textures\\grass.jpg");
 	// use the depth shader id.
 
 	glGenFramebuffers(1, &depthMapFBO);

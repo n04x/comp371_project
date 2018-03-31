@@ -4,13 +4,13 @@ Floor::Floor()
 {
 	vertices = {
 		// positions
-		glm::vec3(50.0f, 0.0f, 50.0f),		// 0
-		glm::vec3(50.0f, 0.0f,-50.0f),		// 1
-		glm::vec3(-50.0f, 0.0f, 50.0f),		// 3
+		glm::vec3(511.0f, 0.0f, 511.0f),		// 0
+		glm::vec3(511.0f, 0.0f,-512.0f),		// 1
+		glm::vec3(-512.0f, 0.0f, 511.0f),		// 3
 
-		glm::vec3(50.0f, 0.0f,-50.0f),		// 1
-		glm::vec3(-50.0f, 0.0f,-50.0f),		// 2
-		glm::vec3(-50.0f, 0.0f, 50.0f),		// 3
+		glm::vec3(511.0f, 0.0f,-512.0f),		// 1
+		glm::vec3(-512.0f, 0.0f,-512.0f),		// 2
+		glm::vec3(-512.0f, 0.0f, 511.0f),		// 3
 
 	};
 	normal = {

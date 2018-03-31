@@ -39,6 +39,7 @@ public:
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 
 	// function to return the view matrix.
+	auto startingView()->glm::mat4;
 	auto getViewMatrix()->glm::mat4;
 
 	// process keyboard input, accept param. from enum value.

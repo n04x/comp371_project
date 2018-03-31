@@ -10,7 +10,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : c_fro
 	updateCameraVectors();
 }
 
-Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : c_front(glm::vec3(0.0f, 0.0f, -1.0f)), c_mov_speed(SPEED), c_mouse_sens(SENS), c_zoom(ZOOM)
+Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : c_front(glm::vec3(0.0f, 0.0f, 0.0f)), c_mov_speed(SPEED), c_mouse_sens(SENS), c_zoom(ZOOM)
 {
 	c_pos = glm::vec3(posX, posY, posZ);
 	c_world_up = glm::vec3(upX, upY, upZ);
@@ -18,7 +18,10 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	c_pitch = pitch;
 	updateCameraVectors();
 }
-
+auto Camera::startingView() -> glm::mat4
+{
+	return glm::lookAt(c_pos, c_front, c_up);
+}
 auto Camera::getViewMatrix() -> glm::mat4
 {
 	return glm::lookAt(c_pos, c_pos + c_front, c_up);

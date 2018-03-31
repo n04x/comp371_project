@@ -22,8 +22,8 @@ auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 0. key binding: 0
 class Horse
 {
 public:
-	GLfloat y_pos = 0.0f;
-	GLfloat z_pos = 0.0f;
+	//GLfloat y_pos = 0.0f;
+	//GLfloat z_pos = 0.0f;
 	
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normal;
@@ -44,6 +44,7 @@ public:
 	static glm::mat4 front_lower_left_leg_rotation;
 	static glm::mat4 hind_upper_left_leg_rotation;
 	static glm::mat4 hind_lower_left_leg_rotation;
+	
 
 	modes choice = FILL;
 	GLfloat static x_t, z_t;
