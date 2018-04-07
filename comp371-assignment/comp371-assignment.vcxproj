@@ -133,6 +133,7 @@
     <ClCompile Include="objects\Coordinate.cpp" />
     <ClCompile Include="objects\Grid.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="objects\Player.cpp" />
     <ClCompile Include="shaders\Shaders.cpp" />
     <ClCompile Include="objects\Skybox.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="objects\Horse.h" />
     <ClInclude Include="objects\Coordinate.h" />
     <ClInclude Include="objects\Grid.h" />
+    <ClInclude Include="objects\Player.h" />
     <ClInclude Include="shaders\Shaders.h" />
     <ClInclude Include="objects\Skybox.h" />
     <ClInclude Include="stb_image.h" />

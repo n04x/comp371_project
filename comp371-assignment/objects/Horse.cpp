@@ -20,280 +20,280 @@ int running_counter = 0;
 int eating_counter = 0;
 int eating_cycle = 1;
 int run_cycle = 1;
-auto Horse::horse_callback_input(GLFWwindow * window) -> void
-{
-
-	// horse movement.
-	if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS))
-	{
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			x_pos -= 1.0f;
-			std::cout << "shift+w pressed increment x: " << x_pos << std::endl;
-		}
-		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
-
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			x_pos += 1.0f;
-		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_pos -= 1.0f;
-		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
-		}
-
-	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_pos += 1.0f;
-		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
-		}
-	}
-
-	//  random horse location.
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		x_pos = (rand() % 100) - 50.0f;
-		z_pos = (rand() % 100) - 50.0f;
-	}
-	// reset to default position.
-	if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS) {
-		// positions.
-		x_pos = 0.0f;
-		z_pos = 0.0f;
-		horse_scale = glm::mat4(1.0f);
-		horse_rotation = glm::mat4(1.0f);
-		torso_rotation = glm::mat4(1.0f);
-	}
-
-	// horse transformation (scale the horse)
-	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-		horse_scale = glm::scale(horse_scale, glm::vec3(1.1f, 1.1f, 1.1f));
-	}
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		horse_scale = glm::scale(horse_scale, glm::vec3(0.9f, 0.9f, 0.9f));
-	}
-	// horse torso rotation
-	if ((glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (torso_angle_counter >= -18 && torso_angle_counter < 18) {
-				torso_rotation = glm::rotate(torso_rotation, glm::radians(5.0f), glm::vec3(1, 0, 0));
-				torso_angle_counter++;
-			}
-		}
-		else {
-			if (torso_angle_counter > -18) {
-				torso_rotation = glm::rotate(torso_rotation, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-				torso_angle_counter--;
-			}
-		}
-	}
-	// horse head movement
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (head_angle_counter >= -5 && head_angle_counter < 5) {
-				head_rotation = glm::translate(head_rotation, head_to_neck);
-				head_rotation = glm::rotate(head_rotation, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				head_rotation = glm::translate(head_rotation, -head_to_neck);
-				head_angle_counter++;
-			}
-		}
-		else {
-			if (head_angle_counter > -5) {
-				head_rotation = glm::translate(head_rotation, head_to_neck);
-				head_rotation = glm::rotate(head_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				head_rotation = glm::translate(head_rotation, -head_to_neck);
-				head_angle_counter--;
-			}
-		}
-	}
-	// horse neck movement
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (neck_angle_counter >= 0 && neck_angle_counter < 15) {
-				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
-				neck_rotation = glm::rotate(neck_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
-				neck_angle_counter++;
-			}
-		}
-		else {
-			if (neck_angle_counter > 0) {
-				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
-				neck_rotation = glm::rotate(neck_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
-				neck_angle_counter--;
-			}
-		}
-	}
-	// horse front right upper leg movement.
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (furl_angle_counter >= -15 && furl_angle_counter < 15) {
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
-				furl_angle_counter++;
-			}
-		}
-		else {
-			if (furl_angle_counter > -15) {
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
-				furl_angle_counter--;
-			}
-		}
-	}
-	// horse front right lower leg movement.
-	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (flrl_angle_counter >= 0 && flrl_angle_counter < 15) {
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
-				flrl_angle_counter++;
-			}
-		}
-		else {
-			if (flrl_angle_counter > 0) {
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
-				flrl_angle_counter--;
-			}
-		}
-	}
-	// horse hind right upper leg movement.
-	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (hurl_angle_counter >= -15 && hurl_angle_counter < 15) {
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
-				hurl_angle_counter++;
-			}
-		}
-		else {
-			if (hurl_angle_counter > -15) {
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
-				hurl_angle_counter--;
-			}
-		}
-	}
-	// horse hind right lower leg movement.
-	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (hlrl_angle_counter >= 0 && hlrl_angle_counter < 15) {
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
-				hlrl_angle_counter++;
-			}
-		}
-		else {
-			if (hlrl_angle_counter > 0) {
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
-				hlrl_angle_counter--;
-			}
-		}
-	}
-	// horse front left upper leg movement.
-	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (full_angle_counter >= -15 && full_angle_counter < 15) {
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
-				full_angle_counter++;
-			}
-		}
-		else {
-			if (full_angle_counter > -15) {
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
-				full_angle_counter--;
-			}
-		}
-	}
-	// horse front left lower leg movement.
-	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (flll_angle_counter >= 0 && flll_angle_counter < 15) {
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
-				flll_angle_counter++;
-			}
-		}
-		else {
-			if (flll_angle_counter > 0) {
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
-				flll_angle_counter--;
-			}
-		}
-	}
-	// horse hind left upper leg movement.
-	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (hull_angle_counter >= -15 && hull_angle_counter < 15) {
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
-				hull_angle_counter++;
-			}
-		}
-		else {
-			if (hull_angle_counter > -15) {
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
-				hull_angle_counter--;
-			}
-		}
-	}
-	// horse hind left lowerleg movement.
-	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (hlll_angle_counter >= 0 && hlll_angle_counter < 15) {
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
-				hlll_angle_counter++;
-			}
-		}
-		else {
-			if (hlll_angle_counter > 0) {
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
-				hlll_angle_counter--;
-			}
-		}
-	}
-}
+//auto Horse::horse_callback_input(GLFWwindow * window) -> void
+//{
+//
+//	// horse movement.
+//	if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS))
+//	{
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			x_pos -= 1.0f;
+//			std::cout << "shift+w pressed increment x: " << x_pos << std::endl;
+//		}
+//		else {
+//			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
+//			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
+//			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
+//
+//		}
+//	}
+//	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+//			x_pos += 1.0f;
+//		else {
+//			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
+//			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
+//			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
+//		}
+//	}
+//	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+//			z_pos -= 1.0f;
+//		else {
+//			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
+//			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
+//			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
+//		}
+//
+//	}
+//	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+//			z_pos += 1.0f;
+//		else {
+//			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
+//			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
+//			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
+//		}
+//	}
+//
+//	//  random horse location.
+//	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+//		x_pos = (rand() % 100) - 50.0f;
+//		z_pos = (rand() % 100) - 50.0f;
+//	}
+//	// reset to default position.
+//	if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS) {
+//		// positions.
+//		x_pos = 0.0f;
+//		z_pos = 0.0f;
+//		horse_scale = glm::mat4(1.0f);
+//		horse_rotation = glm::mat4(1.0f);
+//		torso_rotation = glm::mat4(1.0f);
+//	}
+//
+//	// horse transformation (scale the horse)
+//	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+//		horse_scale = glm::scale(horse_scale, glm::vec3(1.1f, 1.1f, 1.1f));
+//	}
+//	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+//		horse_scale = glm::scale(horse_scale, glm::vec3(0.9f, 0.9f, 0.9f));
+//	}
+//	// horse torso rotation
+//	if ((glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (torso_angle_counter >= -18 && torso_angle_counter < 18) {
+//				torso_rotation = glm::rotate(torso_rotation, glm::radians(5.0f), glm::vec3(1, 0, 0));
+//				torso_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (torso_angle_counter > -18) {
+//				torso_rotation = glm::rotate(torso_rotation, glm::radians(-5.0f), glm::vec3(1, 0, 0));
+//				torso_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse head movement
+//	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (head_angle_counter >= -5 && head_angle_counter < 5) {
+//				head_rotation = glm::translate(head_rotation, head_to_neck);
+//				head_rotation = glm::rotate(head_rotation, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//				head_rotation = glm::translate(head_rotation, -head_to_neck);
+//				head_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (head_angle_counter > -5) {
+//				head_rotation = glm::translate(head_rotation, head_to_neck);
+//				head_rotation = glm::rotate(head_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//				head_rotation = glm::translate(head_rotation, -head_to_neck);
+//				head_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse neck movement
+//	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (neck_angle_counter >= 0 && neck_angle_counter < 15) {
+//				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
+//				neck_rotation = glm::rotate(neck_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
+//				neck_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (neck_angle_counter > 0) {
+//				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
+//				neck_rotation = glm::rotate(neck_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
+//				neck_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse front right upper leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (furl_angle_counter >= -15 && furl_angle_counter < 15) {
+//				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
+//				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
+//				furl_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (furl_angle_counter > -15) {
+//				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
+//				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
+//				furl_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse front right lower leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (flrl_angle_counter >= 0 && flrl_angle_counter < 15) {
+//				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
+//				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
+//				flrl_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (flrl_angle_counter > 0) {
+//				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
+//				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
+//				flrl_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse hind right upper leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (hurl_angle_counter >= -15 && hurl_angle_counter < 15) {
+//				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
+//				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
+//				hurl_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (hurl_angle_counter > -15) {
+//				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
+//				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
+//				hurl_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse hind right lower leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (hlrl_angle_counter >= 0 && hlrl_angle_counter < 15) {
+//				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
+//				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
+//				hlrl_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (hlrl_angle_counter > 0) {
+//				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
+//				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
+//				hlrl_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse front left upper leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (full_angle_counter >= -15 && full_angle_counter < 15) {
+//				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
+//				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
+//				full_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (full_angle_counter > -15) {
+//				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
+//				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
+//				full_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse front left lower leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (flll_angle_counter >= 0 && flll_angle_counter < 15) {
+//				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
+//				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
+//				flll_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (flll_angle_counter > 0) {
+//				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
+//				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
+//				flll_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse hind left upper leg movement.
+//	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (hull_angle_counter >= -15 && hull_angle_counter < 15) {
+//				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
+//				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
+//				hull_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (hull_angle_counter > -15) {
+//				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
+//				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
+//				hull_angle_counter--;
+//			}
+//		}
+//	}
+//	// horse hind left lowerleg movement.
+//	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
+//		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+//			if (hlll_angle_counter >= 0 && hlll_angle_counter < 15) {
+//				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
+//				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
+//				hlll_angle_counter++;
+//			}
+//		}
+//		else {
+//			if (hlll_angle_counter > 0) {
+//				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
+//				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
+//				hlll_angle_counter--;
+//			}
+//		}
+//	}
+//}
 
 auto Horse::setBBWorld(BoudingBox bb) -> void
 {
@@ -679,7 +679,7 @@ auto Horse::horse_running(GLfloat dTime) -> void
 {
 	dTime *= 30.0;
 	
-	if (x_pos <= horse_bounding_box.top && x_pos >= horse_bounding_box.bottom && x_pos >= horse_bounding_box.left && x_pos <= horse_bounding_box.right) {
+	if (x_pos <= horse_bounding_box.right && x_pos >= horse_bounding_box.left && z_pos >= horse_bounding_box.far && z_pos <= horse_bounding_box.near) {
 		x_pos -= dTime / 5;
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);

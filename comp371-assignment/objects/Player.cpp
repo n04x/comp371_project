@@ -2,19 +2,20 @@
 
 GLfloat Player::player_x = 0.0f;
 GLfloat Player::player_z = 0.0f;
-glm::mat4 Player::horse_rotation = glm::mat4(1.0f);
-glm::mat4 Player::horse_scale = glm::mat4(1.0f);
-glm::mat4 Player::torso_rotation = glm::mat4(1.0f);
-glm::mat4 Player::head_rotation = glm::mat4(1.0f);
-glm::mat4 Player::neck_rotation = glm::mat4(1.0f);
-glm::mat4 Player::front_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::front_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::hind_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::hind_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::front_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::front_lower_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::hind_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Player::hind_lower_left_leg_rotation = glm::mat4(1.0f);
+
+glm::mat4 Player::player_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_scale = glm::mat4(1.0f);
+glm::mat4 Player::player_torso_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_head_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_neck_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_front_upper_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_front_lower_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_hind_upper_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_hind_lower_right_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_front_upper_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_front_lower_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_hind_upper_left_leg_rotation = glm::mat4(1.0f);
+glm::mat4 Player::player_hind_lower_left_leg_rotation = glm::mat4(1.0f);
 
 // the max angle condition.
 static int torso_angle_counter = 0;
@@ -29,88 +30,87 @@ static int flll_angle_counter = 0;
 static int hull_angle_counter = 0;
 static int hlll_angle_counter = 0;
 static bool forward_running = true;
-int running_counter = 0;
-int run_cycle = 1;
-auto Player::horse_callback_input(GLFWwindow * window) -> void
+int player_running_counter = 0;
+int player_run_cycle = 1;
+auto Player::zebra_callback_input(GLFWwindow * window) -> void
 {
 
 	// horse movement.
 	if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS))
 	{
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			x_t -= 1.0f;
-			std::cout << "shift+w pressed increment x: " << x_t << std::endl;
+			player_x -= 1.0f;
 		}
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			player_rotation = glm::translate(player_rotation, glm::vec3(player_x, 0.0f, player_z));
+			player_rotation = glm::rotate(player_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
+			player_rotation = glm::translate(player_rotation, -glm::vec3(player_x, 0.0f, player_z));
 
 		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			x_t += 1.0f;
+			player_x += 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			player_rotation = glm::translate(player_rotation, glm::vec3(player_x, 0.0f, player_z));
+			player_rotation = glm::rotate(player_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
+			player_rotation = glm::translate(player_rotation, -glm::vec3(player_x, 0.0f, player_z));
 		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_t -= 1.0f;
+			player_z -= 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			player_rotation = glm::translate(player_rotation, glm::vec3(player_x, 0.0f, player_z));
+			player_rotation = glm::rotate(player_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
+			player_rotation = glm::translate(player_rotation, -glm::vec3(player_x, 0.0f, player_z));
 		}
 
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_t += 1.0f;
+			player_z += 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
-			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			player_rotation = glm::translate(player_rotation, glm::vec3(player_x, 0.0f, player_z));
+			player_rotation = glm::rotate(player_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
+			player_rotation = glm::translate(player_rotation, -glm::vec3(player_x, 0.0f, player_z));
 		}
 	}
 
 	//  random horse location.
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		x_t = (rand() % 100) - 50.0f;
-		z_t = (rand() % 100) - 50.0f;
+		player_x = (rand() % 100) - 50.0f;
+		player_z = (rand() % 100) - 50.0f;
 	}
 	// reset to default position.
 	if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS) {
 		// positions.
-		x_t = 0.0f;
-		z_t = 0.0f;
-		horse_scale = glm::mat4(1.0f);
-		horse_rotation = glm::mat4(1.0f);
-		torso_rotation = glm::mat4(1.0f);
+		player_x = 0.0f;
+		player_z = 0.0f;
+		player_scale = glm::mat4(1.0f);
+		player_rotation = glm::mat4(1.0f);
+		player_torso_rotation = glm::mat4(1.0f);
 	}
 
 	// horse transformation (scale the horse)
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-		horse_scale = glm::scale(horse_scale, glm::vec3(1.1f, 1.1f, 1.1f));
+		player_scale = glm::scale(player_scale, glm::vec3(1.1f, 1.1f, 1.1f));
 	}
 	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		horse_scale = glm::scale(horse_scale, glm::vec3(0.9f, 0.9f, 0.9f));
+		player_scale = glm::scale(player_scale, glm::vec3(0.9f, 0.9f, 0.9f));
 	}
 	// horse torso rotation
 	if ((glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (torso_angle_counter >= -18 && torso_angle_counter < 18) {
-				torso_rotation = glm::rotate(torso_rotation, glm::radians(5.0f), glm::vec3(1, 0, 0));
-				torso_angle_counter++;
+				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(5.0f), glm::vec3(1, 0, 0));
+				player_torso_rotation++;
 			}
 		}
 		else {
 			if (torso_angle_counter > -18) {
-				torso_rotation = glm::rotate(torso_rotation, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-				torso_angle_counter--;
+				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(-5.0f), glm::vec3(1, 0, 0));
+				player_torso_rotation--;
 			}
 		}
 	}
@@ -118,17 +118,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (head_angle_counter >= -5 && head_angle_counter < 5) {
-				head_rotation = glm::translate(head_rotation, head_to_neck);
-				head_rotation = glm::rotate(head_rotation, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				head_rotation = glm::translate(head_rotation, -head_to_neck);
+				player_head_rotation = glm::translate(player_head_rotation, player_head_to_neck);
+				player_head_rotation = glm::rotate(player_head_rotation, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				player_head_rotation = glm::translate(player_head_rotation, -player_head_to_neck);
 				head_angle_counter++;
 			}
 		}
 		else {
 			if (head_angle_counter > -5) {
-				head_rotation = glm::translate(head_rotation, head_to_neck);
-				head_rotation = glm::rotate(head_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				head_rotation = glm::translate(head_rotation, -head_to_neck);
+				player_head_rotation = glm::translate(player_head_rotation, player_head_to_neck);
+				player_head_rotation = glm::rotate(player_head_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				player_head_rotation = glm::translate(player_head_rotation, -player_head_to_neck);
 				head_angle_counter--;
 			}
 		}
@@ -137,17 +137,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (neck_angle_counter >= 0 && neck_angle_counter < 15) {
-				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
-				neck_rotation = glm::rotate(neck_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
+				player_neck_rotation = glm::translate(player_neck_rotation, player_neck_to_torso);
+				player_neck_rotation = glm::rotate(player_neck_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_neck_rotation = glm::translate(player_neck_rotation, -player_neck_to_torso);
 				neck_angle_counter++;
 			}
 		}
 		else {
 			if (neck_angle_counter > 0) {
-				neck_rotation = glm::translate(neck_rotation, neck_to_torso);
-				neck_rotation = glm::rotate(neck_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
+				player_neck_rotation = glm::translate(player_neck_rotation, player_neck_to_torso);
+				player_neck_rotation = glm::rotate(player_neck_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_neck_rotation = glm::translate(player_neck_rotation, -player_neck_to_torso);
 				neck_angle_counter--;
 			}
 		}
@@ -156,17 +156,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (furl_angle_counter >= -15 && furl_angle_counter < 15) {
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
+				player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, player_torso_to_front_upper_leg);
+				player_front_upper_right_leg_rotation = glm::rotate(player_front_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, -player_torso_to_front_upper_leg);
 				furl_angle_counter++;
 			}
 		}
 		else {
 			if (furl_angle_counter > -15) {
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-				front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
+				player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, player_torso_to_front_upper_leg);
+				player_front_upper_right_leg_rotation = glm::rotate(player_front_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, -player_torso_to_front_upper_leg);
 				furl_angle_counter--;
 			}
 		}
@@ -175,17 +175,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (flrl_angle_counter >= 0 && flrl_angle_counter < 15) {
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
+				player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, player_front_right_knee);
+				player_front_lower_right_leg_rotation = glm::rotate(player_front_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, -player_front_right_knee);
 				flrl_angle_counter++;
 			}
 		}
 		else {
 			if (flrl_angle_counter > 0) {
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-				front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
+				player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, player_front_right_knee);
+				player_front_lower_right_leg_rotation = glm::rotate(player_front_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, -player_front_right_knee);
 				flrl_angle_counter--;
 			}
 		}
@@ -194,17 +194,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (hurl_angle_counter >= -15 && hurl_angle_counter < 15) {
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
+				player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, player_torso_to_hind_upper_right_leg);
+				player_hind_upper_right_leg_rotation = glm::rotate(player_hind_upper_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, -player_torso_to_hind_upper_right_leg);
 				hurl_angle_counter++;
 			}
 		}
 		else {
 			if (hurl_angle_counter > -15) {
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-				hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
+				player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, player_torso_to_hind_upper_right_leg);
+				player_hind_upper_right_leg_rotation = glm::rotate(player_hind_upper_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, -player_torso_to_hind_upper_right_leg);
 				hurl_angle_counter--;
 			}
 		}
@@ -213,17 +213,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (hlrl_angle_counter >= 0 && hlrl_angle_counter < 15) {
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
+				player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, player_hind_right_knee);
+				player_hind_lower_right_leg_rotation = glm::rotate(player_hind_lower_right_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, -player_hind_right_knee);
 				hlrl_angle_counter++;
 			}
 		}
 		else {
 			if (hlrl_angle_counter > 0) {
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-				hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
+				player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, player_hind_right_knee);
+				player_hind_lower_right_leg_rotation = glm::rotate(player_hind_lower_right_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, -player_hind_right_knee);
 				hlrl_angle_counter--;
 			}
 		}
@@ -232,17 +232,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (full_angle_counter >= -15 && full_angle_counter < 15) {
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
+				player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, player_torso_to_front_upper_left_leg);
+				player_front_upper_left_leg_rotation = glm::rotate(player_front_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, -player_torso_to_front_upper_left_leg);
 				full_angle_counter++;
 			}
 		}
 		else {
 			if (full_angle_counter > -15) {
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-				front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
+				player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, player_torso_to_front_upper_left_leg);
+				player_front_upper_left_leg_rotation = glm::rotate(player_front_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, -player_torso_to_front_upper_left_leg);
 				full_angle_counter--;
 			}
 		}
@@ -251,17 +251,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (flll_angle_counter >= 0 && flll_angle_counter < 15) {
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
+				player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, player_front_left_knee);
+				player_front_lower_left_leg_rotation = glm::rotate(player_front_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, -player_front_left_knee);
 				flll_angle_counter++;
 			}
 		}
 		else {
 			if (flll_angle_counter > 0) {
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-				front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
+				player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, player_front_left_knee);
+				player_front_lower_left_leg_rotation = glm::rotate(player_front_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, -player_front_left_knee);
 				flll_angle_counter--;
 			}
 		}
@@ -270,17 +270,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (hull_angle_counter >= -15 && hull_angle_counter < 15) {
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
+				player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, player_torso_to_hind_upper_left_leg);
+				player_hind_upper_left_leg_rotation = glm::rotate(player_hind_upper_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, -player_torso_to_hind_upper_left_leg);
 				hull_angle_counter++;
 			}
 		}
 		else {
 			if (hull_angle_counter > -15) {
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-				hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
+				player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, player_torso_to_hind_upper_left_leg);
+				player_hind_upper_left_leg_rotation = glm::rotate(player_hind_upper_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, -player_torso_to_hind_upper_left_leg);
 				hull_angle_counter--;
 			}
 		}
@@ -289,17 +289,17 @@ auto Player::horse_callback_input(GLFWwindow * window) -> void
 	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 			if (hlll_angle_counter >= 0 && hlll_angle_counter < 15) {
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
+				player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, player_hind_left_knee);
+				player_hind_lower_left_leg_rotation = glm::rotate(player_hind_lower_left_leg_rotation, glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, -player_hind_left_knee);
 				hlll_angle_counter++;
 			}
 		}
 		else {
 			if (hlll_angle_counter > 0) {
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-				hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
+				player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, player_hind_left_knee);
+				player_hind_lower_left_leg_rotation = glm::rotate(player_hind_lower_left_leg_rotation, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, -player_hind_left_knee);
 				hlll_angle_counter--;
 			}
 		}
@@ -442,7 +442,7 @@ Player::Player()
 		glm::vec2(0.0, 1.0),
 		glm::vec2(0.0, 0.0),
 	};
-	horse_texture = loadTexture(texPath);
+	player_horse_texture = loadTexture(texPath);
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);
@@ -480,7 +480,7 @@ auto Player::draw(Shader shdr, glm::mat4 model) -> void
 		glDisableVertexAttribArray(1);
 	}
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, horse_texture);
+	glBindTexture(GL_TEXTURE_2D, player_horse_texture);
 	glUniform1i(glGetUniformLocation(shdr.ID, "tex"), 0);
 	draw_torso(shdr, model);
 	draw_front_left_upper_leg(shdr);
@@ -501,36 +501,36 @@ auto Player::setSwap(bool texture_enable) -> void
 }
 
 // functions to draw the horse.
-auto Player::draw_horse(Shader shdr, modes choice) -> void
+auto Player::draw_horse(Shader shdr) -> void
 {
-	if (choice == LINES) {
+	/*if (choice == LINES) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	else if (choice == POINTS) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 	else if (choice == FILL)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);*/
 	glm::mat4 model = glm::mat4(1.0f);
 	//model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//model = glm::rotate(model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
-	model *= horse_scale;
-	model *= horse_rotation;
-	model = glm::translate(model, glm::vec3(x_t, 0.0f, z_t));
-	horse_model = model;
+	model *= player_scale;
+	model *= player_rotation;
+	model = glm::translate(model, glm::vec3(player_x, 0.0f, player_z));
+	player_horse_model = model;
 
-	draw(shdr, horse_model);
+	draw(shdr, player_horse_model);
 }
 auto Player::draw_torso(Shader shdr, glm::mat4 model) -> void
 {
 	glBindVertexArray(VAO);
 
 	//create the horse torso.
-	torso = model;
-	torso = glm::scale(torso, glm::vec3(1.5f, 0.5f, 0.6f));
-	torso = glm::translate(torso, glm::vec3(0.0f, 4.0f, -0.175f));
-	torso *= torso_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(torso));
+	player_torso = model;
+	player_torso = glm::scale(player_torso, glm::vec3(1.5f, 0.5f, 0.6f));
+	player_torso = glm::translate(player_torso, glm::vec3(0.0f, 4.0f, -0.175f));
+	player_torso *= player_torso_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_torso));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 // left front legs
@@ -538,21 +538,21 @@ auto Player::draw_front_left_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	front_left_upper_leg = torso;
-	front_left_upper_leg = glm::translate(front_left_upper_leg, glm::vec3(-0.75f, -1.75f, 0.5f));
-	front_left_upper_leg = glm::scale(front_left_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
-	front_left_upper_leg *= front_upper_left_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_left_upper_leg));
+	player_front_left_upper_leg = player_torso;
+	player_front_left_upper_leg = glm::translate(player_front_left_upper_leg, glm::vec3(-0.75f, -1.75f, 0.5f));
+	player_front_left_upper_leg = glm::scale(player_front_left_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
+	player_front_left_upper_leg *= player_front_upper_left_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_front_left_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 auto Player::draw_front_left_lower_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	front_left_lower_leg = front_left_upper_leg;
-	front_left_lower_leg = glm::translate(front_left_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
-	front_left_lower_leg *= front_lower_left_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_left_lower_leg));
+	player_front_left_lower_leg = player_front_left_upper_leg;
+	player_front_left_lower_leg = glm::translate(player_front_left_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
+	player_front_left_lower_leg *= player_front_lower_left_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_front_left_lower_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
@@ -561,21 +561,21 @@ auto Player::draw_front_right_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	front_right_upper_leg = torso;
-	front_right_upper_leg = glm::translate(front_right_upper_leg, glm::vec3(-0.75f, -1.70f, -0.5f));
-	front_right_upper_leg = glm::scale(front_right_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
-	front_right_upper_leg *= front_upper_right_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_right_upper_leg));
+	player_front_right_upper_leg = player_torso;
+	player_front_right_upper_leg = glm::translate(player_front_right_upper_leg, glm::vec3(-0.75f, -1.70f, -0.5f));
+	player_front_right_upper_leg = glm::scale(player_front_right_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
+	player_front_right_upper_leg *= player_front_upper_right_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_front_right_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 auto Player::draw_front_right_lower_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	front_right_lower_leg = front_right_upper_leg;
-	front_right_lower_leg = glm::translate(front_right_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
-	front_right_lower_leg *= front_lower_right_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(front_right_lower_leg));
+	player_front_right_lower_leg = player_front_right_upper_leg;
+	player_front_right_lower_leg = glm::translate(player_front_right_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
+	player_front_right_lower_leg *= player_front_lower_right_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_front_right_lower_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
@@ -584,11 +584,11 @@ auto Player::draw_hind_left_upper_leg(Shader shdr) -> void {
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	hind_left_upper_leg = torso;
-	hind_left_upper_leg = glm::translate(hind_left_upper_leg, glm::vec3(0.75f, -1.75f, 0.5f));
-	hind_left_upper_leg = glm::scale(hind_left_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
-	hind_left_upper_leg *= hind_upper_left_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_left_upper_leg));
+	player_hind_left_upper_leg = player_torso;
+	player_hind_left_upper_leg = glm::translate(player_hind_left_upper_leg, glm::vec3(0.75f, -1.75f, 0.5f));
+	player_hind_left_upper_leg = glm::scale(player_hind_left_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
+	player_hind_left_upper_leg *= player_hind_upper_left_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_hind_left_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 auto Player::draw_hind_left_lower_leg(Shader shdr) -> void
@@ -596,10 +596,10 @@ auto Player::draw_hind_left_lower_leg(Shader shdr) -> void
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	hind_left_lower_leg = hind_left_upper_leg;
-	hind_left_lower_leg = glm::translate(hind_left_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
-	hind_left_lower_leg *= hind_lower_left_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_left_lower_leg));
+	player_hind_left_lower_leg = player_hind_left_upper_leg;
+	player_hind_left_lower_leg = glm::translate(player_hind_left_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
+	player_hind_left_lower_leg *= player_hind_lower_left_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_hind_left_lower_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
@@ -609,11 +609,11 @@ auto Player::draw_hind_right_upper_leg(Shader shdr) -> void
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	hind_right_upper_leg = torso;
-	hind_right_upper_leg = glm::translate(hind_right_upper_leg, glm::vec3(0.75f, -1.75f, -0.5f));
-	hind_right_upper_leg = glm::scale(hind_right_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
-	hind_right_upper_leg *= hind_upper_right_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_right_upper_leg));
+	player_hind_right_upper_leg = player_torso;
+	player_hind_right_upper_leg = glm::translate(player_hind_right_upper_leg, glm::vec3(0.75f, -1.75f, -0.5f));
+	player_hind_right_upper_leg = glm::scale(player_hind_right_upper_leg, glm::vec3(0.20f, 0.75f, 0.40f));
+	player_hind_right_upper_leg *= player_hind_upper_right_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_hind_right_upper_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 auto Player::draw_hind_right_lower_leg(Shader shdr) -> void
@@ -621,10 +621,10 @@ auto Player::draw_hind_right_lower_leg(Shader shdr) -> void
 	glBindVertexArray(VAO);
 
 	// create the horse legs.
-	hind_right_lower_leg = hind_right_upper_leg;
-	hind_right_lower_leg = glm::translate(hind_right_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
-	hind_right_lower_leg *= hind_lower_right_leg_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(hind_right_lower_leg));
+	player_hind_right_lower_leg = player_hind_right_upper_leg;
+	player_hind_right_lower_leg = glm::translate(player_hind_right_lower_leg, glm::vec3(0.0f, -2.0f, 0.0f));
+	player_hind_right_lower_leg *= player_hind_lower_right_leg_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_hind_right_lower_leg));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
@@ -633,12 +633,12 @@ auto Player::draw_neck(Shader shdr) -> void
 	glBindVertexArray(VAO);
 
 	// create the horse neck.
-	neck = torso;
-	neck = glm::translate(neck, glm::vec3(-1.2f, 0.0f, 0.0f));
-	neck = glm::rotate(neck, glm::radians(45.0f), glm::vec3(.0f, 0.0f, 1.0f));
-	neck = glm::scale(neck, glm::vec3(0.5f, 0.7f, 0.5f));
-	neck *= neck_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(neck));
+	player_neck = player_torso;
+	player_neck = glm::translate(player_neck, glm::vec3(-1.2f, 0.0f, 0.0f));
+	player_neck = glm::rotate(player_neck, glm::radians(45.0f), glm::vec3(.0f, 0.0f, 1.0f));
+	player_neck = glm::scale(player_neck, glm::vec3(0.5f, 0.7f, 0.5f));
+	player_neck *= player_neck_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_neck));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 auto Player::draw_head(Shader shdr) -> void
@@ -646,13 +646,13 @@ auto Player::draw_head(Shader shdr) -> void
 	glBindVertexArray(VAO);
 
 	// create the horse head.
-	head = neck;
-	head = glm::translate(head, glm::vec3(-0.5f, 1.6f, 0.0f));
-	head = glm::rotate(head, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	head = glm::rotate(head, glm::radians(-45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	head = glm::scale(head, glm::vec3(1.5f, 0.60f, 1.0f));
-	head *= head_rotation;
-	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(head));
+	player_head = player_neck;
+	player_head = glm::translate(player_head, glm::vec3(-0.5f, 1.6f, 0.0f));
+	player_head = glm::rotate(player_head, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	player_head = glm::rotate(player_head, glm::radians(-45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	player_head = glm::scale(player_head, glm::vec3(1.5f, 0.60f, 1.0f));
+	player_head *= player_head_rotation;
+	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_head));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
 
@@ -681,59 +681,59 @@ auto Player::loadTexture(char const * path) -> GLuint
 	return textureID;
 }
 
-auto Player::horse_running(Shader shdr, GLfloat dTime) -> void
+auto Player::player_horse_running(Shader shdr, GLfloat dTime) -> void
 {
 	dTime *= 5.0;
-	x_t -= dTime / 5;
+	//player_x -= dTime / 5;
 	if (forward_running) {
 		// front upper right leg movement
-		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
-		front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, -torso_to_front_upper_leg);
+		player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, player_torso_to_front_upper_leg);
+		player_front_upper_right_leg_rotation = glm::rotate(player_front_upper_right_leg_rotation, dTime * glm::radians(player_run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_front_upper_right_leg_rotation = glm::translate(player_front_upper_right_leg_rotation, -player_torso_to_front_upper_leg);
 		// front lower right leg movement
-		front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, front_right_knee);
-		front_lower_right_leg_rotation = glm::rotate(front_lower_right_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		front_lower_right_leg_rotation = glm::translate(front_lower_right_leg_rotation, -front_right_knee);
+		player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, player_front_right_knee);
+		player_front_lower_right_leg_rotation = glm::rotate(player_front_lower_right_leg_rotation, dTime * glm::radians(player_run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_front_lower_right_leg_rotation = glm::translate(player_front_lower_right_leg_rotation, -player_front_right_knee);
 
 		// front upper left leg movement
-		front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, torso_to_front_upper_left_leg);
-		front_upper_left_leg_rotation = glm::rotate(front_upper_left_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		front_upper_left_leg_rotation = glm::translate(front_upper_left_leg_rotation, -torso_to_front_upper_left_leg);
+		player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, player_torso_to_front_upper_left_leg);
+		player_front_upper_left_leg_rotation = glm::rotate(player_front_upper_left_leg_rotation, dTime * glm::radians(player_run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_front_upper_left_leg_rotation = glm::translate(player_front_upper_left_leg_rotation, -player_torso_to_front_upper_left_leg);
 		// front lower left leg movement
-		front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, front_left_knee);
-		front_lower_left_leg_rotation = glm::rotate(front_lower_left_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		front_lower_left_leg_rotation = glm::translate(front_lower_left_leg_rotation, -front_left_knee);
+		player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, player_front_left_knee);
+		player_front_lower_left_leg_rotation = glm::rotate(player_front_lower_left_leg_rotation, dTime * glm::radians(player_run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_front_lower_left_leg_rotation = glm::translate(player_front_lower_left_leg_rotation, -player_front_left_knee);
 
 		// hind upper right leg movement
-		hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, torso_to_hind_upper_right_leg);
-		hind_upper_right_leg_rotation = glm::rotate(hind_upper_right_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		hind_upper_right_leg_rotation = glm::translate(hind_upper_right_leg_rotation, -torso_to_hind_upper_right_leg);
+		player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, player_torso_to_hind_upper_right_leg);
+		player_hind_upper_right_leg_rotation = glm::rotate(player_hind_upper_right_leg_rotation, dTime * glm::radians(player_run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_hind_upper_right_leg_rotation = glm::translate(player_hind_upper_right_leg_rotation, -player_torso_to_hind_upper_right_leg);
 		// hind lower right leg movement
-		hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, hind_right_knee);
-		hind_lower_right_leg_rotation = glm::rotate(hind_lower_right_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		hind_lower_right_leg_rotation = glm::translate(hind_lower_right_leg_rotation, -hind_right_knee);
+		player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, player_hind_right_knee);
+		player_hind_lower_right_leg_rotation = glm::rotate(player_hind_lower_right_leg_rotation, dTime * glm::radians(player_run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_hind_lower_right_leg_rotation = glm::translate(player_hind_lower_right_leg_rotation, -player_hind_right_knee);
 
 		// hind upper left leg movement
-		hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, torso_to_hind_upper_left_leg);
-		hind_upper_left_leg_rotation = glm::rotate(hind_upper_left_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		hind_upper_left_leg_rotation = glm::translate(hind_upper_left_leg_rotation, -torso_to_hind_upper_left_leg);
+		player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, player_torso_to_hind_upper_left_leg);
+		player_hind_upper_left_leg_rotation = glm::rotate(player_hind_upper_left_leg_rotation, dTime * glm::radians(player_run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_hind_upper_left_leg_rotation = glm::translate(player_hind_upper_left_leg_rotation, -player_torso_to_hind_upper_left_leg);
 		// hind lower left leg movement
-		hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, hind_left_knee);
-		hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
-		running_counter++;
+		player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, player_hind_left_knee);
+		player_hind_lower_left_leg_rotation = glm::rotate(player_hind_lower_left_leg_rotation, dTime * glm::radians(player_run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, -player_hind_left_knee);
+		player_running_counter++;
 		//std::cout << running_counter << std::endl;
-		if (running_counter >= 200) {
-			run_cycle = run_cycle * -1;
-			running_counter = -150;
+		if (player_running_counter >= 200) {
+			player_run_cycle = player_run_cycle * -1;
+			player_running_counter = -150;
 		}
 	}
 }
 
-auto Player::random_horse_position() -> void
+auto Player::player_random_horse_position() -> void
 {
-	x_t = (rand() % 100) - 50.0f;
-	z_t = (rand() % 100) - 50.0f;
+	player_x = (rand() % 100) - 50.0f;
+	player_z = (rand() % 100) - 50.0f;
 }
 
 

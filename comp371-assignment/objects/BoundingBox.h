@@ -2,11 +2,11 @@
 #define BOUNDING_BOX_H
 
 typedef struct {
-	float top;
-	float bottom;
+	float far;
+	float near;
 	float left;
 	float right;
 }BoudingBox;
 
-BoudingBox makeBB(float top, float bottom, float left, float right);
+BoudingBox makeBB(float left, float right, float far, float near);
 #endif // !BOUNDING_BOX_H

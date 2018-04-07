@@ -22,6 +22,7 @@
 #include "objects\Floor.h"
 #include "objects\horse_movement.h"
 #include "objects\Skybox.h"
+#include "objects\Player.h"
 
 // SETTINGS
 GLFWwindow* window;
@@ -61,7 +62,7 @@ auto dTime = 0.0f; // time between current frame and last frame
 auto lastFrame = 0.0f;
 
 // FUNCTION DEFINITION
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, std::vector<Horse> ourHorses, Shader shdr) -> void;
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> ourHorses, Shader shdr) -> void;
 auto mouse_callback_input(GLFWwindow *window, GLdouble xpos, GLdouble ypos) -> void;
 auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) -> void;
 auto load_texture(char const * path)->GLuint;
@@ -71,7 +72,7 @@ auto init() -> int{
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Project for 271", nullptr, nullptr);
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Project for 371", nullptr, nullptr);
 
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback_input);
@@ -104,13 +105,13 @@ auto main() -> int{
 	Grid ourGrid;
 	Floor ourFloor;
 	Coordinate coordaxes;
-	Horse ourHorse;
+	Player playerHorse;
 	//anotherHorse.x_t = 10;
 	std::vector<Horse> ourHorses;
 	srand(time(NULL));
 	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 		Horse horse;
-		horse.setBBWorld(makeBB(50, -50, -50, 50));
+		horse.setBBWorld(makeBB(50, -50, -100, -20));
 		horse.random_horse_position();
 		ourHorses.push_back(horse);
 	}
@@ -184,7 +185,7 @@ auto main() -> int{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, grass_texture);
 		if(shadow_enable)
-			render_world_object(ourFloor, coordaxes, ourHorses, depth_shdr);
+			render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, depth_shdr);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		
 		// reset our viewport
@@ -217,8 +218,9 @@ auto main() -> int{
 		glBindTexture(GL_TEXTURE_2D, grass_texture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		render_world_object(ourFloor, coordaxes, ourHorses, shdr);
+		render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, shdr);
 		if (walk_cycle_enable) {
+			std::cout << "walk cycle is enabled..." << std::endl;
 			for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 				if (i % 2 == 0)
 					ourHorses.at(i).horse_running(dTime);
@@ -262,10 +264,12 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 		else
 			shadow_enable = false;
 	}
-	// HORSE WALK CYCLE
-	if (glfwGetKey(window, GLFW_KEY_R)) {
+	// HORSE WALK CYCLE FOR MY 20 STUPID HORSES
+	if (glfwGetKey(window, GLFW_KEY_H)) {
+		std::cout << "H pressed" << std::endl;
 		if (walk_cycle_enable) {
 			walk_cycle_enable = false;
+
 		}
 		else
 			walk_cycle_enable = true;
@@ -279,15 +283,18 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 		choice = FILL;
 }
 
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, std::vector<Horse> ourHorses, Shader shdr) -> void
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> ourHorses, Shader shdr) -> void
 {
 	ourFloor.setSwap(texture_enable);
 	ourFloor.draw(shdr);
 	coordaxes.draw(shdr);
+	playerHorse.setSwap(texture_enable);
+	playerHorse.draw_horse(shdr);
+	playerHorse.zebra_callback_input(window);
 	for (auto count =0; count < HORSE_SIZE_VECTOR; count++) {
 		ourHorses.at(count).setSwap(texture_enable);
 		ourHorses.at(count).draw_horse(shdr, choice);
-		ourHorses.at(count).horse_callback_input(window);
+		//ourHorses.at(count).horse_callback_input(window);
 	}
 }
 

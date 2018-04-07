@@ -28,7 +28,7 @@ public:
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec2> texture_coordinates;
-	auto horse_callback_input(GLFWwindow* window) -> void;
+	//auto horse_callback_input(GLFWwindow* window) -> void;
 	// bounding boxes
 	auto setBBWorld(BoudingBox bb) -> void;
 	// horse transformation
