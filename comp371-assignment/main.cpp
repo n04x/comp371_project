@@ -1,5 +1,5 @@
 // ======================================================
-// Title: Assignment #2 COMP 371 - Computer Graphics.
+// Title: Project COMP 371 - Computer Graphics.
 // Student Name: Thomas Backs
 // Student ID: 27554524
 // ======================================================
@@ -71,7 +71,7 @@ auto init() -> int{
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Assignment #2", nullptr, nullptr);
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Project for 271", nullptr, nullptr);
 
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback_input);
@@ -110,18 +110,14 @@ auto main() -> int{
 	srand(time(NULL));
 	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 		Horse horse;
+		horse.setBBWorld(makeBB(50, -50, -50, 50));
 		horse.random_horse_position();
-		std::cout << "integer i: " << i << std::endl;
 		ourHorses.push_back(horse);
 	}
-	std::cout << ourHorses.at(0).x_t << std::endl;
-	std::cout << ourHorses.at(1).x_t << std::endl;
-	std::cout << ourHorses.at(2).x_t << std::endl;
-	horse_movement ourHorse_movement;
+	//horse_movement ourHorse_movement;
 	Skybox ourSkybox;
 	// ===== PROJECTION MATRIX CONFIGURATION =====
 	glm::mat4 pm = glm::perspective(glm::radians(ourCamera.c_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 200.f);
-	
 	
 	
 	// load textures
@@ -210,8 +206,8 @@ auto main() -> int{
 		ourSkybox.draw(sky_shdr);
 		glEnable(GL_DEPTH_TEST);
 		
+		// draw the horses
 		shdr.useID();
-		
 		glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "p_m"), 1, false, glm::value_ptr(pm));
 		glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "v_m"), 1, false, glm::value_ptr(vm));
 		glUniform3fv(glGetUniformLocation(shdr.ID, "v_p"), 1, glm::value_ptr(ourCamera.c_pos));
@@ -223,12 +219,17 @@ auto main() -> int{
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		render_world_object(ourFloor, coordaxes, ourHorses, shdr);
 		if (walk_cycle_enable) {
-			for(int i = 0; i < HORSE_SIZE_VECTOR; i++)
-				ourHorse.horse_running(shdr, dTime);
+			for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
+				if (i % 2 == 0)
+					ourHorses.at(i).horse_running(dTime);
+				/*else if (i % 2 == 1)
+					ourHorses.at(i).horse_eating_grass(dTime);*/
+			}
 		}
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
+	
 	return 0;
 }
 

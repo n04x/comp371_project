@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="objects\BoundingBox.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="objects\horse_movement.cpp" />
     <ClCompile Include="objects\Floor.cpp" />
@@ -146,6 +147,7 @@
     <None Include="shaders\vs_sky.ogl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="objects\BoundingBox.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="objects\horse_movement.h" />
     <ClInclude Include="objects\Floor.h" />

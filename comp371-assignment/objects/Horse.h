@@ -3,7 +3,8 @@
 #include "..\stdinclude.h"
 #include "..\shaders\Shaders.h"
 #include "..\stb_image.h"
-#include "horse_movement.h"
+#include "BoundingBox.h"
+
 enum modes { POINTS, LINES, FILL };
 
 // joints
@@ -22,32 +23,32 @@ auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 0. key binding: 0
 class Horse
 {
 public:
-	//GLfloat y_pos = 0.0f;
-	//GLfloat z_pos = 0.0f;
 	
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec2> texture_coordinates;
 	auto horse_callback_input(GLFWwindow* window) -> void;
+	// bounding boxes
+	auto setBBWorld(BoudingBox bb) -> void;
 	// horse transformation
-	static glm::mat4 horse_rotation;
-	static glm::mat4 horse_scale;
-	static glm::mat4 torso_rotation;
-	static glm::mat4 head_rotation;
-	static glm::mat4 neck_rotation;
-	static glm::mat4 front_upper_right_leg_rotation;				
-	static glm::mat4 front_lower_right_leg_rotation;
-	static glm::mat4 hind_upper_right_leg_rotation;
-	static glm::mat4 hind_lower_right_leg_rotation;
-	static glm::mat4 front_upper_left_leg_rotation;
-	static glm::mat4 front_lower_left_leg_rotation;
-	static glm::mat4 hind_upper_left_leg_rotation;
-	static glm::mat4 hind_lower_left_leg_rotation;
+	glm::mat4 horse_rotation = glm::mat4(1.0f);
+	glm::mat4 horse_scale = glm::mat4(1.0f);
+	glm::mat4 torso_rotation = glm::mat4(1.0f);
+	glm::mat4 head_rotation = glm::mat4(1.0f);
+	glm::mat4 neck_rotation = glm::mat4(1.0f);
+	glm::mat4 front_upper_right_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 front_lower_right_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 hind_upper_right_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 hind_lower_right_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 front_upper_left_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 front_lower_left_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 hind_upper_left_leg_rotation = glm::mat4(1.0f);
+	glm::mat4 hind_lower_left_leg_rotation = glm::mat4(1.0f);
 	
 
 	modes choice = FILL;
-	GLfloat x_t = 0.0f, z_t = 0.0f;
+	GLfloat x_pos = 0.0f, z_pos = 0.0f;
 
 	Horse();
 	// functions to draw the horse.
@@ -68,16 +69,24 @@ public:
 	auto draw_neck(Shader shdr) -> void;
 	auto draw_head(Shader shdr) -> void;
 	auto loadTexture(char const *path)->GLuint;
-	auto horse_running(Shader shdr, GLfloat dTime) -> void;
+
+	// the automatization of horse movement for the troop.
+	auto horse_running(GLfloat dTime) -> void;
+	auto horse_eating_grass(GLfloat dTime) -> void;
+	auto horse_movement(GLfloat dTime, int horseNumber) -> void;
 	auto random_horse_position() -> void;
+
+	// the horse texture
 	GLuint horse_texture;
 
 protected:
 	GLuint VAO;
 	GLuint VBO, VBOtx, VBOnorm;
 	GLuint EBO;
-
+	BoudingBox horse_bounding_box;
 	bool swap = true;
+	
+	// list of body part model for the horse.
 	glm::mat4 horse_model = glm::mat4(1.0f);
 	glm::mat4 head = glm::mat4(1.0f);
 	glm::mat4 neck = glm::mat4(1.0f);
@@ -90,6 +99,8 @@ protected:
 	glm::mat4 hind_left_lower_leg = glm::mat4(1.0f);
 	glm::mat4 hind_right_upper_leg = glm::mat4(1.0f);
 	glm::mat4 hind_right_lower_leg = glm::mat4(1.0f);
+	
+	// path for the horse texture
 	const char * texPath = "..\\comp371-assignment\\textures\\horse.jpg";
 
 };

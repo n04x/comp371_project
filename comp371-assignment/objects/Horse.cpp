@@ -1,21 +1,5 @@
 #include "Horse.h"
 
-//GLfloat x_t = 0.0f;
-//GLfloat z_t = 0.0f;
-glm::mat4 Horse::horse_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::horse_scale = glm::mat4(1.0f);
-glm::mat4 Horse::torso_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::head_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::neck_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_upper_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_lower_right_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::front_lower_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_upper_left_leg_rotation = glm::mat4(1.0f);
-glm::mat4 Horse::hind_lower_left_leg_rotation = glm::mat4(1.0f);
-
 // the max angle condition.
 static int torso_angle_counter = 0;
 static int head_angle_counter = 0;
@@ -28,8 +12,13 @@ static int full_angle_counter = 0;
 static int flll_angle_counter = 0;
 static int hull_angle_counter = 0;
 static int hlll_angle_counter = 0;
+static std::vector<float> horse_xpos = { 0.0f };
+static std::vector<float> horse_zpos = { 0.0f };
+
 static bool forward_running = true;
 int running_counter = 0;
+int eating_counter = 0;
+int eating_cycle = 1;
 int run_cycle = 1;
 auto Horse::horse_callback_input(GLFWwindow * window) -> void
 {
@@ -38,55 +27,55 @@ auto Horse::horse_callback_input(GLFWwindow * window) -> void
 	if ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS))
 	{
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			x_t -= 1.0f;
-			std::cout << "shift+w pressed increment x: " << x_t << std::endl;
+			x_pos -= 1.0f;
+			std::cout << "shift+w pressed increment x: " << x_pos << std::endl;
 		}
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 
 		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			x_t += 1.0f;
+			x_pos += 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 0, 1));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_t -= 1.0f;
+			z_pos -= 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(-5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 		}
 
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			z_t += 1.0f;
+			z_pos += 1.0f;
 		else {
-			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
 			horse_rotation = glm::rotate(horse_rotation, glm::radians(5.0f), glm::vec3(0, 1, 0));
-			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+			horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 		}
 	}
 
 	//  random horse location.
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		x_t = (rand() % 100) - 50.0f;
-		z_t = (rand() % 100) - 50.0f;
+		x_pos = (rand() % 100) - 50.0f;
+		z_pos = (rand() % 100) - 50.0f;
 	}
 	// reset to default position.
 	if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS) {
 		// positions.
-		x_t = 0.0f;
-		z_t = 0.0f;
+		x_pos = 0.0f;
+		z_pos = 0.0f;
 		horse_scale = glm::mat4(1.0f);
 		horse_rotation = glm::mat4(1.0f);
 		torso_rotation = glm::mat4(1.0f);
@@ -306,6 +295,11 @@ auto Horse::horse_callback_input(GLFWwindow * window) -> void
 	}
 }
 
+auto Horse::setBBWorld(BoudingBox bb) -> void
+{
+	horse_bounding_box = bb;
+}
+
 Horse::Horse()
 {
 	vertices = {
@@ -465,7 +459,7 @@ Horse::Horse()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-		
+	
 }
 
 // this will draw the horse.
@@ -516,7 +510,7 @@ auto Horse::draw_horse(Shader shdr, modes choice) -> void
 	//model = glm::rotate(model, glm::radians(-45.0f / 2), glm::vec3(0.0f, 1.0f, 0.0f));
 	model *= horse_scale;
 	model *= horse_rotation;
-	model = glm::translate(model, glm::vec3(x_t, 0.0f, z_t));
+	model = glm::translate(model, glm::vec3(x_pos, 0.0f, z_pos));
 	horse_model = model;
 
 	draw(shdr, horse_model);
@@ -681,11 +675,12 @@ auto Horse::loadTexture(char const * path) -> GLuint
 	return textureID;
 }
 
-auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
+auto Horse::horse_running(GLfloat dTime) -> void
 {
-	dTime *= 5.0;
-	x_t -= dTime/5;
-	if (forward_running) {
+	dTime *= 30.0;
+	
+	if (x_pos <= horse_bounding_box.top && x_pos >= horse_bounding_box.bottom && x_pos >= horse_bounding_box.left && x_pos <= horse_bounding_box.right) {
+		x_pos -= dTime / 5;
 		// front upper right leg movement
 		front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
 		front_upper_right_leg_rotation = glm::rotate(front_upper_right_leg_rotation, dTime * glm::radians(run_cycle * -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -722,18 +717,65 @@ auto Horse::horse_running(Shader shdr, GLfloat dTime) -> void
 		hind_lower_left_leg_rotation = glm::rotate(hind_lower_left_leg_rotation, dTime * glm::radians(run_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		hind_lower_left_leg_rotation = glm::translate(hind_lower_left_leg_rotation, -hind_left_knee);
 		running_counter++;
-		//std::cout << running_counter << std::endl;
 		if (running_counter >= 200) {
 			run_cycle = run_cycle * -1;
 			running_counter = -150;
 		}
 	}
+	/*else {
+		horse_rotation = glm::translate(horse_rotation, glm::vec3(x_t, 0.0f, z_t));
+		horse_rotation = glm::rotate(horse_rotation, glm::radians(90.0f), glm::vec3(0, 1, 0));
+		horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_t, 0.0f, z_t));
+	}*/
+}
+
+auto Horse::horse_eating_grass(GLfloat dTime) -> void
+{
+	dTime *= 30.0f;
+	bool sleep = true;
+	neck_rotation = glm::translate(neck_rotation, neck_to_torso);
+	neck_rotation = glm::rotate(neck_rotation, dTime * glm::radians( eating_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
+	eating_counter++;
+	std::cout << "counter: "<< eating_counter << std::endl;
+	if (eating_counter >= 250) {
+		eating_cycle = eating_cycle * -1;
+		eating_counter = 0;
+	}
+}
+
+auto Horse::horse_movement(GLfloat dTime, int horseNumber) -> void
+{
+	if (horseNumber % 2 == 0)
+		horse_running(dTime);
+	else if (horseNumber == 5 || horseNumber == 7) {
+		horse_eating_grass(dTime);
+	}
 }
 
 auto Horse::random_horse_position() -> void
 {
-	x_t = (rand() % 100) - 50.0f;
-	z_t = (rand() % 100) - 50.0f;
+	bool overlap = false;
+	do {
+		x_pos = (rand() % 50) - 25.0f;
+		z_pos = (rand() % 50) - 25.0f;
+		if (x_pos == 0.0f && z_pos == 0.0f)
+			overlap = true;
+		else {
+			for (int i = 0; i < horse_xpos.size(); i++) {
+				if (x_pos == horse_xpos.at(i))
+					for (int j = 0; j < horse_zpos.size(); j++)
+						if (z_pos == horse_zpos.at(j))
+							overlap = true;
+			}
+		}
+	} while (overlap);
+	horse_xpos.push_back(x_pos);
+	horse_zpos.push_back(z_pos);
+	GLfloat temp_radiant = (rand() % 360) - 180.0f;
+	horse_rotation = glm::translate(horse_rotation, glm::vec3(x_pos, 0.0f, z_pos));
+	horse_rotation = glm::rotate(horse_rotation, glm::radians(temp_radiant), glm::vec3(0, 1, 0));
+	horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 }
 
 
