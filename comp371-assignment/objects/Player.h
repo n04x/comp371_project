@@ -4,6 +4,8 @@
 #include "..\stdinclude.h"
 #include "..\shaders\Shaders.h"
 #include "..\stb_image.h"
+#include "BoundingBox.h"
+#include "Horse.h"
 //enum modes { POINTS, LINES, FILL };
 
 // joints
@@ -24,7 +26,8 @@ class Player
 public:
 	//GLfloat playerX_pos = 0.0f;
 	//GLfloat playerZ_pos = 0.0f;
-
+	static glm::vec3 horse_position_max;
+	static glm::vec3 horse_position_min;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
@@ -48,7 +51,6 @@ public:
 
 	//modes choice = FILL;
 	GLfloat static player_x, player_z;
-
 	Player();
 	// functions to draw the horse.
 	auto draw(Shader shdr, glm::mat4 model) -> void;
@@ -70,6 +72,7 @@ public:
 	auto loadTexture(char const *path)->GLuint;
 	auto player_horse_running(Shader shdr, GLfloat dTime) -> void;
 	auto player_random_horse_position() -> void;
+	auto player_hit_horse(Player &player, Horse &horse) -> GLboolean;
 	GLuint player_horse_texture;
 
 protected:

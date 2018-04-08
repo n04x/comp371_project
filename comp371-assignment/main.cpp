@@ -62,7 +62,7 @@ auto dTime = 0.0f; // time between current frame and last frame
 auto lastFrame = 0.0f;
 
 // FUNCTION DEFINITION
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> ourHorses, Shader shdr) -> void;
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> &ourHorses, Shader shdr) -> void;
 auto mouse_callback_input(GLFWwindow *window, GLdouble xpos, GLdouble ypos) -> void;
 auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) -> void;
 auto load_texture(char const * path)->GLuint;
@@ -106,15 +106,17 @@ auto main() -> int{
 	Floor ourFloor;
 	Coordinate coordaxes;
 	Player playerHorse;
+
 	//anotherHorse.x_t = 10;
 	std::vector<Horse> ourHorses;
 	srand(time(NULL));
 	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 		Horse horse;
-		horse.setBBWorld(makeBB(50, -50, -100, -20));
+		horse.setBBWorld(makeBB(50, -50, -50, 50));
 		horse.random_horse_position();
 		ourHorses.push_back(horse);
 	}
+
 	//horse_movement ourHorse_movement;
 	Skybox ourSkybox;
 	// ===== PROJECTION MATRIX CONFIGURATION =====
@@ -154,7 +156,6 @@ auto main() -> int{
 	glUniform3fv(glGetUniformLocation(shdr.ID, "v_p"), 1, glm::value_ptr(ourCamera.c_pos));
 	glUniform3fv(glGetUniformLocation(shdr.ID, "l_p"), 1, glm::value_ptr(light_position));
 	glUniform4f(glGetUniformLocation(shdr.ID, "color"), 0.5f, 0.5f, 0.5f, 1.0f);
-	
 	while (!glfwWindowShouldClose(window)) {
 		// pre-frame time logic.
 		float currentFrame = glfwGetTime();
@@ -220,9 +221,8 @@ auto main() -> int{
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, shdr);
 		if (walk_cycle_enable) {
-			std::cout << "walk cycle is enabled..." << std::endl;
-			for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
-				if (i % 2 == 0)
+			for (int i = 0; i < ourHorses.size(); i++) {
+				if (i % 2 == 0) 
 					ourHorses.at(i).horse_running(dTime);
 				/*else if (i % 2 == 1)
 					ourHorses.at(i).horse_eating_grass(dTime);*/
@@ -283,7 +283,7 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 		choice = FILL;
 }
 
-auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> ourHorses, Shader shdr) -> void
+auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHorse, std::vector<Horse> &ourHorses, Shader shdr) -> void
 {
 	ourFloor.setSwap(texture_enable);
 	ourFloor.draw(shdr);
@@ -291,10 +291,16 @@ auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHors
 	playerHorse.setSwap(texture_enable);
 	playerHorse.draw_horse(shdr);
 	playerHorse.zebra_callback_input(window);
-	for (auto count =0; count < HORSE_SIZE_VECTOR; count++) {
+	for (auto count =0; count < ourHorses.size(); count++) {
 		ourHorses.at(count).setSwap(texture_enable);
 		ourHorses.at(count).draw_horse(shdr, choice);
 		//ourHorses.at(count).horse_callback_input(window);
+	}
+	for (auto i = 0; i < ourHorses.size(); i++) {
+		if (playerHorse.player_hit_horse(playerHorse, ourHorses.at(i))) {
+			ourHorses.erase(ourHorses.begin() + i);
+			std::cout << "collision!" << std::endl;
+		}
 	}
 }
 

@@ -16,7 +16,8 @@ glm::mat4 Player::player_front_upper_left_leg_rotation = glm::mat4(1.0f);
 glm::mat4 Player::player_front_lower_left_leg_rotation = glm::mat4(1.0f);
 glm::mat4 Player::player_hind_upper_left_leg_rotation = glm::mat4(1.0f);
 glm::mat4 Player::player_hind_lower_left_leg_rotation = glm::mat4(1.0f);
-
+glm::vec3 Player::horse_position_max = glm::vec3(player_x + 1.0f, 0.0f, player_z + 0.25f);
+glm::vec3 Player::horse_position_min = glm::vec3(player_x - 1.0f, 0.0f, player_z - 0.25f);
 // the max angle condition.
 static int torso_angle_counter = 0;
 static int head_angle_counter = 0;
@@ -518,7 +519,6 @@ auto Player::draw_horse(Shader shdr) -> void
 	model *= player_rotation;
 	model = glm::translate(model, glm::vec3(player_x, 0.0f, player_z));
 	player_horse_model = model;
-
 	draw(shdr, player_horse_model);
 }
 auto Player::draw_torso(Shader shdr, glm::mat4 model) -> void
@@ -530,6 +530,7 @@ auto Player::draw_torso(Shader shdr, glm::mat4 model) -> void
 	player_torso = glm::scale(player_torso, glm::vec3(1.5f, 0.5f, 0.6f));
 	player_torso = glm::translate(player_torso, glm::vec3(0.0f, 4.0f, -0.175f));
 	player_torso *= player_torso_rotation;
+	
 	glUniformMatrix4fv(glGetUniformLocation(shdr.ID, "m_m"), 1, GL_FALSE, glm::value_ptr(player_torso));
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
@@ -734,6 +735,14 @@ auto Player::player_random_horse_position() -> void
 {
 	player_x = (rand() % 100) - 50.0f;
 	player_z = (rand() % 100) - 50.0f;
+}
+
+auto Player::player_hit_horse(Player & player, Horse & horse) -> GLboolean
+{
+	bool collision_x = ((player.player_x + 1.5f) >= horse.x_pos) && ((horse.x_pos + 1.5f) >= player.player_x);
+	bool collision_z = ((player.player_z + 1.5f) >= horse.z_pos) && ((horse.z_pos + 1.5f) >= player.player_z);
+	
+	return collision_x && collision_z;
 }
 
 

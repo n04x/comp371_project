@@ -1,6 +1,6 @@
 #include "BoundingBox.h"
 
-BoudingBox makeBB(float left, float right, float far, float near) {
+BoudingBox makeBB(float far, float near, float left, float right) {
 	BoudingBox bounding_box;
 	bounding_box.far = far;
 	bounding_box.near = near;

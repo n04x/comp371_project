@@ -32,6 +32,7 @@ public:
 	// bounding boxes
 	auto setBBWorld(BoudingBox bb) -> void;
 	// horse transformation
+	
 	glm::mat4 horse_rotation = glm::mat4(1.0f);
 	glm::mat4 horse_scale = glm::mat4(1.0f);
 	glm::mat4 torso_rotation = glm::mat4(1.0f);
@@ -49,6 +50,8 @@ public:
 
 	modes choice = FILL;
 	GLfloat x_pos = 0.0f, z_pos = 0.0f;
+	//GLfloat x_max = x_pos + 1.0f, x_min = x_pos - 1.0f;
+	//GLfloat z_max = z_pos + 0.25f, z_min = z_pos - 0.25f;
 
 	Horse();
 	// functions to draw the horse.
