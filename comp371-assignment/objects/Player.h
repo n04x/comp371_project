@@ -70,7 +70,7 @@ public:
 	auto draw_neck(Shader shdr) -> void;
 	auto draw_head(Shader shdr) -> void;
 	auto loadTexture(char const *path)->GLuint;
-	auto player_horse_running(Shader shdr, GLfloat dTime) -> void;
+	auto player_horse_running(GLfloat dTime) -> void;
 	auto player_random_horse_position() -> void;
 	auto player_hit_horse(Horse &horse) -> GLboolean;
 	GLuint player_horse_texture;

@@ -30,7 +30,8 @@ GLuint SCR_WIDTH = 800;
 GLuint SCR_HEIGHT = 800;
 auto texture_enable = true;
 auto shadow_enable = false;
-auto walk_cycle_enable = false;
+auto walk_cycle_enable = false;			// AI Horse Running
+auto player_walk = false;				// Player zebra run.
 
 // shadow settings
 GLuint depthMapFBO;
@@ -66,6 +67,7 @@ auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHors
 auto mouse_callback_input(GLFWwindow *window, GLdouble xpos, GLdouble ypos) -> void;
 auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) -> void;
 auto load_texture(char const * path)->GLuint;
+
 auto init() -> int{
 
 	glfwInit();
@@ -111,7 +113,7 @@ auto main() -> int{
 	srand(time(NULL));
 	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 		Horse horse;
-		horse.setBBWorld(makeBB(50, -50, -50, 50));
+		horse.setBBWorld(makeBB(100, -100, -50, 50));
 		horse.random_horse_position();
 		ourHorses.push_back(horse);
 	}
@@ -219,6 +221,8 @@ auto main() -> int{
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, shdr);
+		if (player_walk)
+			playerHorse.player_horse_running(dTime);
 		if (walk_cycle_enable) {
 			for (int i = 0; i < ourHorses.size(); i++) {
 				bool collide = false;
@@ -275,13 +279,20 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 	}
 	// HORSE WALK CYCLE FOR MY 20 STUPID HORSES
 	if (glfwGetKey(window, GLFW_KEY_H)) {
-		std::cout << "H pressed" << std::endl;
 		if (walk_cycle_enable) {
 			walk_cycle_enable = false;
 
 		}
 		else
 			walk_cycle_enable = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_R)) {
+		if (player_walk) {
+			player_walk = false;
+
+		}
+		else
+			player_walk = true;
 	}
 	// HORSE DRAWING METHOD
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)

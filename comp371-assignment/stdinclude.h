@@ -2,7 +2,6 @@
 #define STDINCLUDE_H
 
 // file for standard include files.
-
 #include <stdio.h>
 #include <tchar.h>
 #include <vector>

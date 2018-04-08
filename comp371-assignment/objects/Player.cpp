@@ -103,15 +103,15 @@ auto Player::zebra_callback_input(GLFWwindow * window) -> void
 	// horse torso rotation
 	if ((glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)) {
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			if (torso_angle_counter >= -18 && torso_angle_counter < 18) {
-				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(5.0f), glm::vec3(1, 0, 0));
-				player_torso_rotation++;
+			if (torso_angle_counter >= -25 && torso_angle_counter < 25) {
+				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(2.0f), glm::vec3(1, 0, 0));
+				torso_angle_counter++;
 			}
 		}
 		else {
 			if (torso_angle_counter > -18) {
-				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-				player_torso_rotation--;
+				player_torso_rotation = glm::rotate(player_torso_rotation, glm::radians(-2.0f), glm::vec3(1, 0, 0));
+				torso_angle_counter--;
 			}
 		}
 	}
@@ -682,7 +682,7 @@ auto Player::loadTexture(char const * path) -> GLuint
 	return textureID;
 }
 
-auto Player::player_horse_running(Shader shdr, GLfloat dTime) -> void
+auto Player::player_horse_running(GLfloat dTime) -> void
 {
 	dTime *= 5.0;
 	//player_x -= dTime / 5;
@@ -724,9 +724,9 @@ auto Player::player_horse_running(Shader shdr, GLfloat dTime) -> void
 		player_hind_lower_left_leg_rotation = glm::translate(player_hind_lower_left_leg_rotation, -player_hind_left_knee);
 		player_running_counter++;
 		//std::cout << running_counter << std::endl;
-		if (player_running_counter >= 200) {
+		if (player_running_counter >= 125) {
 			player_run_cycle = player_run_cycle * -1;
-			player_running_counter = -150;
+			player_running_counter = -125;
 		}
 	}
 }
