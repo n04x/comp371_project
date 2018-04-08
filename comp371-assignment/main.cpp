@@ -106,7 +106,6 @@ auto main() -> int{
 	Floor ourFloor;
 	Coordinate coordaxes;
 	Player playerHorse;
-
 	//anotherHorse.x_t = 10;
 	std::vector<Horse> ourHorses;
 	srand(time(NULL));
@@ -222,10 +221,20 @@ auto main() -> int{
 		render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, shdr);
 		if (walk_cycle_enable) {
 			for (int i = 0; i < ourHorses.size(); i++) {
-				if (i % 2 == 0) 
-					ourHorses.at(i).horse_running(dTime);
-				/*else if (i % 2 == 1)
-					ourHorses.at(i).horse_eating_grass(dTime);*/
+				bool collide = false;
+					for (int j = 0; j < ourHorses.size(); j++) {
+						if (i != j) {
+							if (ourHorses.at(i).check_collision(ourHorses.at(j))) {
+								collide = true;
+								break;
+							}
+						}
+					}
+					if (i % 2) {
+						ourHorses.at(i).horse_running(dTime, collide);
+					}
+					else
+						ourHorses.at(i).horse_eating_grass(dTime);
 			}
 		}
 		glfwPollEvents();
@@ -294,10 +303,9 @@ auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHors
 	for (auto count =0; count < ourHorses.size(); count++) {
 		ourHorses.at(count).setSwap(texture_enable);
 		ourHorses.at(count).draw_horse(shdr, choice);
-		//ourHorses.at(count).horse_callback_input(window);
 	}
 	for (auto i = 0; i < ourHorses.size(); i++) {
-		if (playerHorse.player_hit_horse(playerHorse, ourHorses.at(i))) {
+		if (playerHorse.player_hit_horse(ourHorses.at(i))) {
 			ourHorses.erase(ourHorses.begin() + i);
 			std::cout << "collision!" << std::endl;
 		}

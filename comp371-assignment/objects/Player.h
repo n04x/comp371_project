@@ -72,7 +72,7 @@ public:
 	auto loadTexture(char const *path)->GLuint;
 	auto player_horse_running(Shader shdr, GLfloat dTime) -> void;
 	auto player_random_horse_position() -> void;
-	auto player_hit_horse(Player &player, Horse &horse) -> GLboolean;
+	auto player_hit_horse(Horse &horse) -> GLboolean;
 	GLuint player_horse_texture;
 
 protected:

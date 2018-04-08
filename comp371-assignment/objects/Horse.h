@@ -8,16 +8,16 @@
 enum modes { POINTS, LINES, FILL };
 
 // joints
-auto const head_to_neck = glm::vec3(1.2f, 0.0f, 0.0f);					// 1. key binding: 1.
-auto const neck_to_torso = glm::vec3(0.5f, 0.0f, 0.0f);					// 2. key binding: 2.
-auto const torso_to_front_upper_leg = glm::vec3(0.0f, 1.0f, 0.0f);		// 3. Key binding: 3.
-auto const front_right_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 4. key binding: 4.
-auto const torso_to_hind_upper_right_leg = glm::vec3(0.0f, 1.5f, 0.0f); // 5. key binding: 5.
-auto const hind_right_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 6. key binding: 6.
-auto const torso_to_front_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f); // 7. key binding: 7.
-auto const front_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 8. key binding: 8.
-auto const torso_to_hind_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f);	// 9. key binding: 9.
-auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				// 0. key binding: 0.
+auto const head_to_neck = glm::vec3(1.2f, 0.0f, 0.0f);					
+auto const neck_to_torso = glm::vec3(0.5f, 0.0f, 0.0f);					
+auto const torso_to_front_upper_leg = glm::vec3(0.0f, 1.0f, 0.0f);		
+auto const front_right_knee = glm::vec3(0.0f, 1.0f, 0.0f);				
+auto const torso_to_hind_upper_right_leg = glm::vec3(0.0f, 1.5f, 0.0f); 
+auto const hind_right_knee = glm::vec3(0.0f, 1.0f, 0.0f);				
+auto const torso_to_front_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f); 
+auto const front_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				
+auto const torso_to_hind_upper_left_leg = glm::vec3(0.0f, 1.5f, 0.0f);	
+auto const hind_left_knee = glm::vec3(0.0f, 1.0f, 0.0f);				
 
 
 class Horse
@@ -28,11 +28,11 @@ public:
 	std::vector<glm::vec3> normal;
 	std::vector<GLuint> indices;
 	std::vector<glm::vec2> texture_coordinates;
-	//auto horse_callback_input(GLFWwindow* window) -> void;
+	
 	// bounding boxes
 	auto setBBWorld(BoudingBox bb) -> void;
-	// horse transformation
 	
+	// horse transformation
 	glm::mat4 horse_rotation = glm::mat4(1.0f);
 	glm::mat4 horse_scale = glm::mat4(1.0f);
 	glm::mat4 torso_rotation = glm::mat4(1.0f);
@@ -50,8 +50,6 @@ public:
 
 	modes choice = FILL;
 	GLfloat x_pos = 0.0f, z_pos = 0.0f;
-	//GLfloat x_max = x_pos + 1.0f, x_min = x_pos - 1.0f;
-	//GLfloat z_max = z_pos + 0.25f, z_min = z_pos - 0.25f;
 
 	Horse();
 	// functions to draw the horse.
@@ -74,11 +72,13 @@ public:
 	auto loadTexture(char const *path)->GLuint;
 
 	// the automatization of horse movement for the troop.
-	auto horse_running(GLfloat dTime) -> void;
+	auto horse_running(GLfloat dTime, bool collide) -> void;
 	auto horse_eating_grass(GLfloat dTime) -> void;
-	auto horse_movement(GLfloat dTime, int horseNumber) -> void;
 	auto random_horse_position() -> void;
-
+	
+	// check horse collision
+	auto check_collision(Horse &otherHorse) -> GLboolean;
+	
 	// the horse texture
 	GLuint horse_texture;
 

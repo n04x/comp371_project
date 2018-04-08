@@ -737,10 +737,10 @@ auto Player::player_random_horse_position() -> void
 	player_z = (rand() % 100) - 50.0f;
 }
 
-auto Player::player_hit_horse(Player & player, Horse & horse) -> GLboolean
+auto Player::player_hit_horse(Horse & horse) -> GLboolean
 {
-	bool collision_x = ((player.player_x + 1.5f) >= horse.x_pos) && ((horse.x_pos + 1.5f) >= player.player_x);
-	bool collision_z = ((player.player_z + 1.5f) >= horse.z_pos) && ((horse.z_pos + 1.5f) >= player.player_z);
+	bool collision_x = ((player_x + 1.5f) >= horse.x_pos) && ((horse.x_pos + 1.5f) >= player_x);
+	bool collision_z = ((player_z + 1.5f) >= horse.z_pos) && ((horse.z_pos + 1.5f) >= player_z);
 	
 	return collision_x && collision_z;
 }
