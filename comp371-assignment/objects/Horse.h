@@ -49,8 +49,8 @@ public:
 	
 
 	modes choice = FILL;
-	GLfloat x_pos = 0.0f, z_pos = 0.0f;
-
+	GLfloat x_pos = 0.0f, z_pos = 0.0f, x_max = 0, z_max = 0;
+	bool horse_collision = false;
 	Horse();
 	// functions to draw the horse.
 	auto draw(Shader shdr, glm::mat4 model) -> void;
@@ -72,11 +72,12 @@ public:
 	auto loadTexture(char const *path)->GLuint;
 
 	// the automatization of horse movement for the troop.
-	auto horse_running(GLfloat dTime, bool collide) -> void;
+	auto horse_running(GLfloat dTime) -> void;
 	auto horse_eating_grass(GLfloat dTime) -> void;
 	auto random_horse_position() -> void;
 	
 	// check horse collision
+	auto find_max()->void;
 	auto check_collision(Horse &otherHorse) -> GLboolean;
 	
 	// the horse texture

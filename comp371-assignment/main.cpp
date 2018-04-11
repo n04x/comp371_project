@@ -58,6 +58,8 @@ GLfloat lastX = 800 / 2.0f;
 GLfloat lastY = 800 / 2.0f;
 auto firstMouse = true;
 
+std::vector<Horse> ourHorses;
+
 // TIMING
 auto dTime = 0.0f; // time between current frame and last frame
 auto lastFrame = 0.0f;
@@ -67,7 +69,6 @@ auto render_world_object(Floor ourFloor, Coordinate coordaxes, Player playerHors
 auto mouse_callback_input(GLFWwindow *window, GLdouble xpos, GLdouble ypos) -> void;
 auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) -> void;
 auto load_texture(char const * path)->GLuint;
-
 auto init() -> int{
 
 	glfwInit();
@@ -109,7 +110,6 @@ auto main() -> int{
 	Coordinate coordaxes;
 	Player playerHorse;
 	//anotherHorse.x_t = 10;
-	std::vector<Horse> ourHorses;
 	srand(time(NULL));
 	for (int i = 0; i < HORSE_SIZE_VECTOR; i++) {
 		Horse horse;
@@ -157,6 +157,7 @@ auto main() -> int{
 	glUniform3fv(glGetUniformLocation(shdr.ID, "v_p"), 1, glm::value_ptr(ourCamera.c_pos));
 	glUniform3fv(glGetUniformLocation(shdr.ID, "l_p"), 1, glm::value_ptr(light_position));
 	glUniform4f(glGetUniformLocation(shdr.ID, "color"), 0.5f, 0.5f, 0.5f, 1.0f);
+	
 	while (!glfwWindowShouldClose(window)) {
 		// pre-frame time logic.
 		float currentFrame = glfwGetTime();
@@ -220,22 +221,21 @@ auto main() -> int{
 		glBindTexture(GL_TEXTURE_2D, grass_texture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+		
 		render_world_object(ourFloor, coordaxes, playerHorse, ourHorses, shdr);
 		if (player_walk)
 			playerHorse.player_horse_running(dTime);
 		if (walk_cycle_enable) {
 			for (int i = 0; i < ourHorses.size(); i++) {
-				bool collide = false;
 					for (int j = 0; j < ourHorses.size(); j++) {
 						if (i != j) {
 							if (ourHorses.at(i).check_collision(ourHorses.at(j))) {
-								collide = true;
-								break;
-							}
+								ourHorses.at(i).horse_collision = true;
+							} 
 						}
 					}
 					if (i % 2) {
-						ourHorses.at(i).horse_running(dTime, collide);
+						ourHorses.at(i).horse_running(dTime);
 					}
 					else
 						ourHorses.at(i).horse_eating_grass(dTime);
@@ -294,6 +294,7 @@ auto key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 		else
 			player_walk = true;
 	}
+	
 	// HORSE DRAWING METHOD
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
 		choice = LINES;

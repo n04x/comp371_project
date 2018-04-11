@@ -403,7 +403,7 @@ auto Horse::loadTexture(char const * path) -> GLuint
 	return textureID;
 }
 
-auto Horse::horse_running(GLfloat dTime, bool collide) -> void
+auto Horse::horse_running(GLfloat dTime) -> void
 {
 	dTime *= 30.0;
 	// Check if it reaches border
@@ -413,7 +413,7 @@ auto Horse::horse_running(GLfloat dTime, bool collide) -> void
 		run = true;
 
 	if (!run) {
-		if (!collide) {
+		if (!horse_collision) {
 			x_pos -= dTime / 5;
 			// front upper right leg movement
 			front_upper_right_leg_rotation = glm::translate(front_upper_right_leg_rotation, torso_to_front_upper_leg);
@@ -482,7 +482,6 @@ auto Horse::horse_eating_grass(GLfloat dTime) -> void
 	neck_rotation = glm::rotate(neck_rotation, dTime * glm::radians( eating_cycle * 5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	neck_rotation = glm::translate(neck_rotation, -neck_to_torso);
 	eating_counter++;
-	std::cout << "counter: "<< eating_counter << std::endl;
 	if (eating_counter >= 250) {
 		eating_cycle = eating_cycle * -1;
 		eating_counter = 0;
@@ -515,9 +514,23 @@ auto Horse::random_horse_position() -> void
 	horse_rotation = glm::translate(horse_rotation, -glm::vec3(x_pos, 0.0f, z_pos));
 }
 
+auto Horse::find_max() -> void {
+	for (int i = 0; i < vertices.size(); i++) {
+		if (i == 0)
+			x_max = vertices.at(i).x;
+		else if (vertices.at(i).x > x_max)
+			x_max = vertices.at(i).x;
+
+		if (i == 0)
+			z_max = vertices.at(i).y;
+		else if (vertices.at(i).z > z_max)
+			z_max = vertices.at(i).z;
+	}
+}
+
 auto Horse::check_collision(Horse &otherHorse)->GLboolean {
-	bool collision_x = ((x_pos + 0.5f) >= otherHorse.x_pos) && ((x_pos + 0.5f) >= otherHorse.x_pos);
-	bool collision_z = ((x_pos + 0.5f) >= otherHorse.z_pos) && ((z_pos + 0.5f) >= otherHorse.z_pos);
+	bool collision_x = ((x_pos + 0.5f) >= otherHorse.x_pos) && ((otherHorse.x_pos + 0.5f) >= x_pos);
+	bool collision_z = ((x_pos + 0.5f) >= otherHorse.z_pos) && ((otherHorse.z_pos + 0.5f) >= z_pos);
 
 	return collision_x && collision_z;
 };
