@@ -2,9 +2,9 @@
 //////////////////////////////////////////////////////////////////
 ////////													//////
 //////// 		THOMAS BACKS STUDENT ID: 27554524 			//////
-//////// 		PROGRAMMING ASSIGNMENT #1					//////
+//////// 		PROGRAMMING PROJECT 						//////
 //////// 		COMP 371: COMPUTER GRAPHICS WINTER 			//////
-//////// 		DUE: SESSION 5 BY 5 PM						//////
+//////// 		DUE: APRIL	12TH							//////
 ////////													//////
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -24,9 +24,15 @@ FOLDER PATHING:
 ==================================================================
 =	camera\ 	-> contains the class for Camera view			 =
 =	objects\	-> Contains class to create object in space		 =
-=				   such as Coordinate, Grid, and Horse.			 =
+=				   such as Coordinate, Grid, and zebra.			 =
 =	shaders\	-> contains the Shaders Class for vertex/fragment=
 ==================================================================
+
+GENERAL FEATURES:
+------------------------------------------------------------------
+-		'h'	-> to make AI horses running in all direction		 -
+-		'ESC' -> exit the game									 -
+------------------------------------------------------------------
 
 WORLD TRANSFORMATION:
 ------------------------------------------------------------------
@@ -36,39 +42,41 @@ WORLD TRANSFORMATION:
 -			-> by default, shadow is disabled					 -
 ------------------------------------------------------------------
 
-HOW TO MOVE YOUR HORSE:
+HOW TO MOVE YOUR PLAYER ZEBRA:
 ------------------------------------------------------------------
--  LEFTSHIFT + 'W' -> move the horse along the negative x axis.	 -
--  LEFTSHIFT + 'S' -> move the horse along the positive x axis.	 -
--  LEFTSHIFT + 'D' -> move the horse along the negative z axis.	 -
--  LEFTSHIFT + 'A' -> move the horse along the positive z axis.	 -
+-  LEFTSHIFT + 'W' -> move the zebra along the negative x axis.	 -
+-  LEFTSHIFT + 'S' -> move the zebra along the positive x axis.	 -
+-  LEFTSHIFT + 'D' -> move the zebra along the negative z axis.	 -
+-  LEFTSHIFT + 'A' -> move the zebra along the positive z axis.	 -
 ==================================================================
--  		'w' -> rotate the horse upwards of 5 degrees			 -
--  		's' -> rotate the horse downward of 5 degrees			 -
--  		'd' -> rotate the horse to the right about 5 degrees	 -
--  		'a' -> rotate the horse to the left about 5 degrees		 -
--		'SPACEBAR' -> relocate the horse at random positions	 -
+-  		'w' -> rotate the zebra upwards of 5 degrees			 -
+-  		's' -> rotate the zebra downward of 5 degrees			 -
+-  		'd' -> rotate the zebra to the right about 5 degrees	 -
+-  		'a' -> rotate the zebra to the left about 5 degrees		 -
+-		'SPACEBAR' -> relocate the zebra at random positions	 -
 -		'FN + HOME' -> reset initial position and orientation 	 -
--		'r' -> Make the horse compete a run or walk cycle		 -
+-		'r' -> Make the zebra compete a run or walk cycle		 -
 ==================================================================
--		'2' -> raise the horse neck CW							 -
--		'SHIFT + 2' -> raise the horse neck CCW	 				 -
--		'3' -> raise the horse front right leg					 -
--		'SHIFT + 3' -> lower the horse front right leg			 -
--		'4' -> rotate the horse front right knee CW		 		 -
--		'SHIFT + 4' -> rotate the horse front right knee CCW	 -
--		'5' -> raise the horse hind right leg					 -
--		'SHIFT + 5' -> lower the horse hind right leg			 -
--		'6' -> rotate the horse hind right knee CW				 -
--		'SHIFT + 6' -> rotate the horse hind right knee CCW		 -
--		'7' -> raise the horse front left leg					 -
--		'SHIFT + 7' -> lower the horse front left leg			 -
--		'8' -> rotate the horse front left knee CW				 -
--		'SHIFT + 8' -> rotate the horse front left knee CCW 	 -
--		'9' -> raise the horse hind left leg					 -
--		'SHIFT + 9' -> lower the horse hind left leg			 -
--		'0' -> rotate the horse hind left knee CW				 -
--		'SHIFT + 0' -> rotate the horse hind left knee CCW 		 -
+-		'1' -> rotate the zebra head CW							 -
+-		'SHIFT' + '1' -> rotate the zebra head CCW				 -
+-		'2' -> raise the zebra neck CW							 -
+-		'SHIFT + 2' -> raise the zebra neck CCW	 				 -
+-		'3' -> raise the zebra front right leg					 -
+-		'SHIFT + 3' -> lower the zebra front right leg			 -
+-		'4' -> rotate the zebra front right knee CW		 		 -
+-		'SHIFT + 4' -> rotate the zebra front right knee CCW	 -
+-		'5' -> raise the zebra hind right leg					 -
+-		'SHIFT + 5' -> lower the zebra hind right leg			 -
+-		'6' -> rotate the zebra hind right knee CW				 -
+-		'SHIFT + 6' -> rotate the zebra hind right knee CCW		 -
+-		'7' -> raise the zebra front left leg					 -
+-		'SHIFT + 7' -> lower the zebra front left leg			 -
+-		'8' -> rotate the zebra front left knee CW				 -
+-		'SHIFT + 8' -> rotate the zebra front left knee CCW 	 -
+-		'9' -> raise the zebra hind left leg					 -
+-		'SHIFT + 9' -> lower the zebra hind left leg			 -
+-		'0' -> rotate the zebra hind left knee CW				 -
+-		'SHIFT + 0' -> rotate the zebra hind left knee CCW 		 -
 ------------------------------------------------------------------
 
 HOW TO MOVE YOUR CAMERA:
@@ -82,11 +90,11 @@ HOW TO MOVE YOUR CAMERA:
 - MIDMOUSE -> hold left click and change angle along y-axis.	 -													 -
 ------------------------------------------------------------------
 
-HORSE TRANSFORMATION:
+zebra TRANSFORMATION:
 ------------------------------------------------------------------
 -		'P' or 'p' -> change the rendering to points			 -
 -		'L' or 'l' -> change the rendering to lines				 -
 -		'T' or 't' -> change the rendering to fill				 -
--		'U' or 'u' -> scale-up the size of the horse			 -
--		'J' or 'j' -> scale-down the size of the horse			 -
+-		'U' or 'u' -> scale-up the size of the zebra			 -
+-		'J' or 'j' -> scale-down the size of the zebra			 -
 ------------------------------------------------------------------
