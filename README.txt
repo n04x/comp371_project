@@ -30,15 +30,15 @@ FOLDER PATHING:
 
 GENERAL FEATURES:
 ------------------------------------------------------------------
--		'h'	-> to make AI horses running in all direction		 -
+-		'h' or 'H'-> to make AI horses running in all direction	 -
 -		'ESC' -> exit the game									 -
 ------------------------------------------------------------------
 
 WORLD TRANSFORMATION:
 ------------------------------------------------------------------
--		'x' -> enable or disable texture in the world:			 -
+-		'x' or 'X' -> enable or disable texture in the world:	 -
 -			-> by default, texture is enabled					 -
--		'b' -> enable or disable shadow in the world:			 -
+-		'b' or 'B' -> enable or disable shadow in the world:	 -
 -			-> by default, shadow is disabled					 -
 ------------------------------------------------------------------
 
